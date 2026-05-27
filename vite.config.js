@@ -5,9 +5,9 @@ export default defineConfig({
 	server: {
 		proxy: {
 			'/api/v1': {
-        target: 'http://localhost:4000',
+        target: 'https://duelchannel.ringrace.rs',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/v1/, ''),
+        //rewrite: (path) => path.replace(/^\/api\/v1/, ''),
       },
 		},
 	},
