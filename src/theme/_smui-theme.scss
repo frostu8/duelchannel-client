@@ -17,32 +17,36 @@ html,
 body {
   background-color: theme.$surface;
   color: theme.$on-surface;
-
-  @include typography.typography('body1');
 }
 
-h1 {
-  @include typography.typography('headline2');
-}
+.document {
+  p {
+    @include typography.typography('body1');
+  }
 
-h2 {
-  @include typography.typography('headline3');
-}
+  h1 {
+    @include typography.typography('headline2');
+  }
 
-h3 {
-  @include typography.typography('headline4');
-}
+  h2 {
+    @include typography.typography('headline3');
+  }
 
-h4 {
-  @include typography.typography('headline5');
-}
+  h3 {
+    @include typography.typography('headline4');
+  }
 
-h5 {
-  @include typography.typography('headline6');
-}
+  h4 {
+    @include typography.typography('headline5');
+  }
 
-caption {
-  @include typography.typography('caption');
+  h5 {
+    @include typography.typography('headline6');
+  }
+
+  caption {
+    @include typography.typography('caption');
+  }
 }
 
 a {
