@@ -9,29 +9,32 @@
 <div class="dc-card">
   <Card>
     <Content>
-      <div class="card-header">
-        <h2 class="card-title">{ player["display_name"] }</h2>
+      <h2 class="card-title">{ player["display_name"] }</h2>
+      <div class="card-subheader">
+        <Counter class={["card-mmr"]} small padding={4} number={player["mmr"]}/>
         <MiniBadgeDisplay --height="1.25em" flags={ player["flags"] } />
       </div>
-      <Counter class={["card-mmr"]} small padding={4} number={player["mmr"]}/>
     </Content>
   </Card>
 </div>
 
 <style>
   :global(.dc-card .card-mmr) {
-    margin-right: auto;
+    margin-right: 12px;
   }
 
-  .card-header {
+  .card-subheader {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
+    justify-content: left;
   }
 
   .dc-card {
     margin: 12px 24px;
+  }
+
+  .card-title {
+    margin-bottom: 12px;
   }
 </style>
