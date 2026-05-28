@@ -1,5 +1,7 @@
 <script>
   import Textfield from '@smui/textfield';
+  import Icon from '@smui/textfield/icon';
+  import { mdiMagnify } from '@mdi/js';
 
   let value = $state('');
 </script>
@@ -8,26 +10,30 @@
   class="dc-search"
   variant="outlined"
   bind:value={value}
-  size="small"
 >
+  {#snippet trailingIcon()}
+    <Icon class="material-icons">search</Icon>
+  {/snippet}
 </Textfield>
 
 <style>
   :global(.dc-search) {
+    max-width: 640px;
+    width: 100%;
     height: 40px;
   }
 
   :global(.dc-search .mdc-notched-outline .mdc-notched-outline__leading) {
-    border-radius: 28px 0 0 28px;
-    width: 28px;
+    border-radius: 20px 0 0 20px;
+    width: 20px;
   }
 
   :global(.dc-search .mdc-notched-outline .mdc-notched-outline__trailing) {
-    border-radius: 0 28px 28px 0;
+    border-radius: 0 20px 20px 0;
   }
 
   :global(.dc-search .mdc-notched-outline .mdc-notched-outline__notch) {
-    max-width: calc(100% - 28px * 2);
+    max-width: calc(100% - 20px * 2);
   }
 
   :global(
@@ -41,6 +47,6 @@
 
   :global(.dc-search + .mdc-text-field-helper-line) {
     padding-left: 32px;
-    padding-right: 28px;
+    padding-right: 20px;
   }
 </style>

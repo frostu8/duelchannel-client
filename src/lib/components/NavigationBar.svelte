@@ -10,6 +10,7 @@
   .dc-navbar {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 4px;
     padding: 6px 12px;
     background: var(--bg-secondary);
