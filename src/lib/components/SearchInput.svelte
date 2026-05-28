@@ -6,19 +6,26 @@
   let value = $state('');
 </script>
 
-<Textfield
-  class="dc-search"
-  variant="outlined"
-  bind:value={value}
->
-  {#snippet trailingIcon()}
-    <Icon class="material-icons">search</Icon>
-  {/snippet}
-</Textfield>
+<div class="dc-search-outer">
+  <Textfield
+    class="dc-search"
+    variant="outlined"
+    bind:value={value}
+  >
+    {#snippet trailingIcon()}
+      <Icon class="material-icons">search</Icon>
+    {/snippet}
+  </Textfield>
+</div>
 
 <style>
-  :global(.dc-search) {
+  .dc-search-outer {
+    padding: 6px 0;
     max-width: 640px;
+    width: 100%;
+  }
+
+  :global(.dc-search) {
     width: 100%;
     height: 40px;
   }

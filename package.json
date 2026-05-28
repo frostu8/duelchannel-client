@@ -20,6 +20,7 @@
 		"@eslint/js": "^10.0.1",
 		"@mdi/js": "^7.4.47",
 		"@smui/button": "^9.0.0",
+		"@smui/card": "^9.0.0",
 		"@smui/common": "^9.0.0",
 		"@smui/textfield": "^9.0.0",
 		"@sveltejs/adapter-node": "^5.5.4",
