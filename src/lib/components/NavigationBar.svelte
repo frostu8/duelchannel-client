@@ -5,15 +5,19 @@
 
 <nav class="dc-navbar">
   <!-- <SearchInput /> -->
+  {#snippet btn(title, href)}
   <a
-    href="/"
+    {href}
     class={{
       ["navbar-btn"]: true,
-      ["selected"]: page.url.pathname === '/'
+      ["selected"]: page.url.pathname === href
     }}
   >
-    Players
+    {title}
   </a>
+  {/snippet}
+  {@render btn('Players','/')}
+  {@render btn('Servers','/server')}
 </nav>
 
 <style>
@@ -31,11 +35,11 @@
     padding: 12px 12px;
     color: var(--text-secondary);
     text-decoration: none;
+    border-bottom: 2px solid var(--bg-secondary);
   }
 
   .navbar-btn.selected {
     color: var(--accent);
     border-color: var(--accent);
-    border-bottom: 2px solid;
   }
 </style>
