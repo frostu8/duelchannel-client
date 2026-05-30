@@ -12,8 +12,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"smui-theme-light": "smui-theme compile static/smui.css -i src/theme",
-		"smui-theme-dark": "smui-theme compile static/smui-dark.css -i src/theme/dark"
+		"smui-theme-light": "smui-theme compile static/smui.css -i src/theme -i node_modules",
+		"smui-theme-dark": "smui-theme compile static/smui-dark.css -i src/theme/dark -i node_modules"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.4",
@@ -22,7 +22,12 @@
 		"@smui/button": "^9.0.0",
 		"@smui/card": "^9.0.0",
 		"@smui/common": "^9.0.0",
+		"@smui/floating-label": "^9.0.0",
+		"@smui/line-ripple": "^9.0.0",
+		"@smui/notched-outline": "^9.0.0",
+		"@smui/ripple": "^9.0.0",
 		"@smui/textfield": "^9.0.0",
+		"@smui/touch-target": "^9.0.0",
 		"@sveltejs/adapter-node": "^5.5.4",
 		"@sveltejs/kit": "^2.57.0",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",

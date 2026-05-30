@@ -30,7 +30,22 @@ importers:
       '@smui/common':
         specifier: ^9.0.0
         version: 9.0.0
+      '@smui/floating-label':
+        specifier: ^9.0.0
+        version: 9.0.0
+      '@smui/line-ripple':
+        specifier: ^9.0.0
+        version: 9.0.0
+      '@smui/notched-outline':
+        specifier: ^9.0.0
+        version: 9.0.0
+      '@smui/ripple':
+        specifier: ^9.0.0
+        version: 9.0.0
       '@smui/textfield':
+        specifier: ^9.0.0
+        version: 9.0.0
+      '@smui/touch-target':
         specifier: ^9.0.0
         version: 9.0.0
       '@sveltejs/adapter-node':

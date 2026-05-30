@@ -17,7 +17,7 @@
   </a>
   {/snippet}
   {@render btn('Players','/')}
-  {@render btn('Servers','/server')}
+  {@render btn('Servers','/servers')}
 </nav>
 
 <style>
@@ -28,14 +28,15 @@
     gap: 4px;
     padding: 0 12px;
     background: var(--bg-secondary);
+    border-bottom: 2px solid var(--bg-primary);
   }
 
   .navbar-btn {
-    margin: 0 12px;
-    padding: 12px 12px;
+    padding: 16px 1em;
+    transform: translate(0, 2px);
     color: var(--text-secondary);
     text-decoration: none;
-    border-bottom: 2px solid var(--bg-secondary);
+    border-bottom: 2px solid var(--bg-primary);
   }
 
   .navbar-btn.selected {
