@@ -4,7 +4,7 @@
  * @enum {number}
  */
 const UserFlags = {
-  ADMINISTARTOR: 1,
+  ADMINISTRATOR: 1,
   BETA_TESTER: 1 << 1,
   BETA_CHALLENGER: 1 << 2,
 };

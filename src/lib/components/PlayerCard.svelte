@@ -11,7 +11,7 @@
     <Content>
       <h2 class="card-title">{ player["display_name"] }</h2>
       <div class="card-subheader">
-        <Counter class={["card-mmr"]} small padding={4} number={player["mmr"]}/>
+        <Counter class={["card-dr"]} small padding={4} number={player["dr"]}/>
         <MiniBadgeDisplay --height="1.25em" flags={ player["flags"] } />
       </div>
     </Content>
@@ -19,7 +19,7 @@
 </div>
 
 <style>
-  :global(.dc-card .card-mmr) {
+  :global(.dc-card .card-dr) {
     margin-right: 12px;
   }
 
