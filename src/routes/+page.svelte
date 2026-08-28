@@ -5,7 +5,7 @@
 </script>
 
 <article class="dc-player-list">
-	{#each data.players as player}
+	{#each data.players as player (player.id)}
 		<PlayerCard {player} />
 	{/each}
 </article>

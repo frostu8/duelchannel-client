@@ -41,7 +41,7 @@
 
 <div class={['counter', ...containerClass()]}>
 	{#if small}
-		{#each digits as digitNum}
+		{#each digits as digitNum (digitNum)}
 			<CounterDigitSmall {number} {digitNum} --height={height} />
 		{/each}
 	{:else}

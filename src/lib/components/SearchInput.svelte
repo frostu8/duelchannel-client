@@ -1,7 +1,6 @@
 <script>
 	import Textfield from '@smui/textfield';
 	import Icon from '@smui/textfield/icon';
-	import { mdiMagnify } from '@mdi/js';
 
 	let value = $state('');
 </script>

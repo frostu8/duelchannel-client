@@ -31,7 +31,7 @@
 </script>
 
 <div>
-	{#each badges as badge}
+	{#each badges as badge (badge.flag)}
 		<img src={badge.src} alt={badge.alt} draggable="false" />
 	{/each}
 </div>

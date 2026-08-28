@@ -1,13 +1,16 @@
 <script>
-	import SearchInput from './SearchInput.svelte';
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
+
+	/**
+	 * @typedef {import('$app/types').RouteId | import('$app/types').Pathname} AppRoute
+	 */
 </script>
 
 <nav class="dc-navbar">
-	<!-- <SearchInput /> -->
-	{#snippet btn(/** @type {string} */ title, /** @type {string} */ href)}
+	{#snippet btn(/** @type {string} */ title, /** @type {AppRoute} */ href)}
 		<a
-			{href}
+			href={resolve(/** @type {any} */ (href))}
 			class={{
 				['navbar-btn']: true,
 				['selected']: page.url.pathname === href
