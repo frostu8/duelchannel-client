@@ -1,5 +1,5 @@
 <script>
-	import UserFlags, { all } from '$lib/UserFlags.js';
+	import UserFlags, { all } from '$lib/client/UserFlags.js';
 
 	import badgeBetaTester from '$lib/assets/badges/beta_tester.png';
 	import badgeBetaChallenger from '$lib/assets/badges/beta_challenger.png';
