@@ -11,7 +11,7 @@
 </svelte:head>
 
 <div class="dc-app-container">
-	<NavigationBar/>
+	<NavigationBar />
 	<main class="dc-main">
 		{@render children()}
 	</main>
