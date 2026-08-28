@@ -1,13 +1,13 @@
 <script>
 	import NavigationBar from '$lib/components/NavigationBar.svelte';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/favicon.png';
 	import '../app.scss';
 
 	let { children } = $props();
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" type="image/png" href={favicon} />
 </svelte:head>
 
 <div class="dc-app-container">
