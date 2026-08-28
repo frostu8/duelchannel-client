@@ -39,7 +39,7 @@
 <style>
 	img {
 		image-rendering: crisp-edges;
-		height: var(--height, 1em);
+		height: var(--height, 1rem);
 		margin: 0 2px;
 	}
 </style>

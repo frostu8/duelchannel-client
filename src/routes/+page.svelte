@@ -1,18 +1,20 @@
 <script>
-	import PlayerCard from '$lib/components/PlayerCard.svelte';
+	import PlayerList from '$lib/components/PlayerList.svelte';
 
 	let { data } = $props();
 </script>
 
-<article class="dc-player-list">
-	{#each data.players as player (player.id)}
-		<PlayerCard {player} />
-	{/each}
+<article class="player-list">
+	<PlayerList players={data.players} class="player-list-inner"/>
 </article>
 
 <style>
-	.dc-player-list {
+	.player-list {
 		max-width: 640px;
 		margin: auto;
+	}
+
+	:global(.player-list-inner) {
+		width: 100%;
 	}
 </style>
