@@ -1,16 +1,16 @@
-<script>
+<script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
+	import type { Pathname, RouteId } from '$app/types';
 
-	/**
-	 * @typedef {import('$app/types').RouteId | import('$app/types').Pathname} AppRoute
-	 */
+	/** A navbar-linkable route. Only parameterless routes are supported. */
+	type AppRoute = RouteId | Pathname;
 </script>
 
 <nav class="dc-navbar">
-	{#snippet btn(/** @type {string} */ title, /** @type {AppRoute} */ href)}
+	{#snippet btn(title: string, href: AppRoute)}
 		<a
-			href={resolve(/** @type {any} */ (href))}
+			href={resolve(href)}
 			class={{
 				['navbar-btn']: true,
 				['selected']: page.url.pathname === href
