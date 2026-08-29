@@ -54,7 +54,7 @@
 	<td class="rank">
 		{#if player.rank != null}
 			<div>
-				<RankDisplay rank={player.rank} --height="1.5em"/>
+				<RankDisplay rank={player.rank} --height="1.78em"/>
 			</div>
 		{/if}
 	</td>
