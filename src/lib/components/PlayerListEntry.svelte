@@ -1,6 +1,7 @@
 <script>
 	//import Counter from './counter/Counter.svelte';
 	import MiniBadgeDisplay from './MiniBadgeDisplay.svelte';
+	import RankDisplay from './RankDisplay.svelte';
 
 	/**
 	 * @typedef {Object} Props
@@ -19,6 +20,10 @@
 	let wins = () => Math.floor(player.matchesPlayed * player.winRatio).toLocaleString();
 	let total = () => player.matchesPlayed.toLocaleString();
 	let winPercentage = () => (player.winRatio * 100).toFixed(2) + "%";
+
+	let matchesLeft = $derived.by(() => player.matchesUntilRated != null
+		? 10 - player.matchesUntilRated
+		: null)
 </script>
 
 <tr class="player-card">
@@ -33,12 +38,24 @@
 	<td class="record">
 		<span>{wins()}</span><span class="muted">/{total()} ({winPercentage()})</span>
 	</td>
-	<td class="rating-ordinal">
-		{#if drDisplay() != null}
-			<span>{drDisplay()}</span>
-			<sub>{drDisplaySub()}</sub>
-		{:else}
-			<span class="unrated">Unrated</span>
+	<td class="rating-ordinal-display">
+		<div class="rating-ordinal">
+			{#if drDisplay() != null}
+				<span>{drDisplay()}</span>
+				<sub>{drDisplaySub()}</sub>
+			{:else if matchesLeft != null}
+				<span class="unrated">Unrated</span>
+				<sub class="unrated">({matchesLeft}/10)</sub>
+			{:else}
+				<span class="unrated">Unrated</span>
+			{/if}
+		</div>
+	</td>
+	<td class="rank">
+		{#if player.rank != null}
+			<div>
+				<RankDisplay rank={player.rank} --height="1.5rem"/>
+			</div>
 		{/if}
 	</td>
 </tr>
@@ -65,7 +82,15 @@
 	.player-card > th,
 	.player-card > td {
 		text-align: center;
-		padding: 0.75em;
+		padding: 0.75rem;
+
+		&.rating-ordinal-display {
+			padding: 0.75rem 0 0.75rem 0.75rem;
+		}
+
+		&.rank {
+			padding: 0 0.75rem;
+		}
 
 		&:first-child {
 			text-align: left;
@@ -101,6 +126,12 @@
 		color: var(--text-muted);
 	}
 
+	sub.unrated {
+		color: var(--text-muted);
+		margin-left: 6px;
+		font-weight: normal;
+	}
+
 	.unrated {
 		font-style: italic;
 	}
@@ -112,5 +143,11 @@
 		/*align-items: center;*/
 		text-transform: uppercase;
 		gap: 6px;
+	}
+
+	.rank > div {
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: center;
 	}
 </style>

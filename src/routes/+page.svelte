@@ -12,6 +12,7 @@
 	.player-list {
 		max-width: 640px;
 		margin: auto;
+		font-size: larger;
 	}
 
 	:global(.player-list-inner) {

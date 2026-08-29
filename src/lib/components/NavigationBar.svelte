@@ -7,7 +7,7 @@
 	type AppRoute = RouteId | Pathname;
 </script>
 
-<nav class="dc-navbar">
+<nav class="navbar">
 	{#snippet btn(title: string, href: AppRoute)}
 		<a
 			href={resolve(href)}
@@ -19,12 +19,12 @@
 			{title}
 		</a>
 	{/snippet}
-	{@render btn('Players', '/')}
-	{@render btn('Servers', '/servers')}
+	{@render btn('Leaderboard', '/')}
+	<!-- {@render btn('Servers', '/servers')} -->
 </nav>
 
 <style>
-	.dc-navbar {
+	.navbar {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -37,6 +37,8 @@
 	.navbar-btn {
 		padding: 16px 1em;
 		transform: translate(0, 2px);
+		text-transform: uppercase;
+		font-weight: bold;
 		color: var(--text-secondary);
 		text-decoration: none;
 		border-bottom: 2px solid var(--bg-primary);
