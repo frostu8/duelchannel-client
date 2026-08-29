@@ -10,9 +10,9 @@
 
 <style>
 	.player-list {
-		max-width: 640px;
+		max-width: 720px;
 		margin: auto;
-		font-size: larger;
+		font-size: 1.2rem;
 	}
 
 	:global(.player-list-inner) {

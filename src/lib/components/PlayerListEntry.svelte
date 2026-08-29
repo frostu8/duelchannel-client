@@ -32,7 +32,7 @@
 			<a class="user-href" href="/player/{player.id}">
 				{player.displayName}
 			</a>
-			<MiniBadgeDisplay --height="1rem" flags={player.flags} />
+			<MiniBadgeDisplay --height="1em" flags={player.flags} />
 		</div>
 	</th>
 	<td class="record">
@@ -54,7 +54,7 @@
 	<td class="rank">
 		{#if player.rank != null}
 			<div>
-				<RankDisplay rank={player.rank} --height="1.5rem"/>
+				<RankDisplay rank={player.rank} --height="1.5em"/>
 			</div>
 		{/if}
 	</td>
@@ -139,7 +139,7 @@
 	.header {
 		display: flex;
 		flex-flow: row wrap;
-		font-size: 1rem;
+		font-size: 1em;
 		/*align-items: center;*/
 		text-transform: uppercase;
 		gap: 6px;
