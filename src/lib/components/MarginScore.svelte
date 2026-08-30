@@ -97,7 +97,6 @@
     };
   };
   let symbols = () => {
-    console.log(marginLevel());
     let { rawMargin, margin, frac, symbolHeadroomInUse, minSymbol } = marginLevel();
 
     /** @type Array<number> */
