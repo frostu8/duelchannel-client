@@ -20,6 +20,7 @@
       <th scope="row"></th>
       <th scope="row">Record</th>
       <th scope="row">DR</th>
+      <th scope="row"></th>
     </tr>
   </thead>
   <tbody>

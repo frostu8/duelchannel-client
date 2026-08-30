@@ -20,6 +20,7 @@
 		</a>
 	{/snippet}
 	{@render btn('Leaderboard', '/')}
+	{@render btn('Duels', '/duels')}
 	<!-- {@render btn('Servers', '/servers')} -->
 </nav>
 

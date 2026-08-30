@@ -18,6 +18,9 @@ importers:
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.4.0)
+      '@jamescoyle/svelte-icon':
+        specifier: ^0.1.1
+        version: 0.1.1
       '@mdi/js':
         specifier: ^7.4.47
         version: 7.4.47
@@ -178,6 +181,9 @@ packages:
   '@humanwhocodes/retry@0.4.3':
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
+
+  '@jamescoyle/svelte-icon@0.1.1':
+    resolution: {integrity: sha512-7zDOSm3UQ4Onk2JWI4Zp8vjfK1pA8LQDBIBHRCuKB36kk+ZQY2/oXGIneVOyPJawVjRLkKK5Xv8hY0I2iyaiNQ==}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -1556,6 +1562,8 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/retry@0.4.3': {}
+
+  '@jamescoyle/svelte-icon@0.1.1': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:

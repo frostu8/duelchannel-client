@@ -10,7 +10,7 @@
 
 <style>
 	.player-list {
-		max-width: 720px;
+		max-width: 960px;
 		margin: auto;
 		font-size: 1.2rem;
 	}

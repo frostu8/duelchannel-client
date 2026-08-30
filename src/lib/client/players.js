@@ -21,7 +21,7 @@
  * @param {any} player
  * @returns {Player}
  */
-function normalizePlayer(player) {
+export function normalizePlayer(player) {
   return {
     id: player["id"],
     displayName: player["display_name"],
