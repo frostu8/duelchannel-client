@@ -36,7 +36,22 @@
   /** @type {MarginScoreProps} */
   let { margin: rawMargin } = $props();
 
-  let magic = $state(Math.random());
+  /**
+   * Mulberry32 random number generator.
+   *
+   * See <https://github.com/cprosche/mulberry32>.
+   *
+   * @param {number} a
+   * @returns {() => number}
+   */
+  function mulberry32(a) {
+    return function() {
+      var t = a += 0x6D2B79F5;
+      t = Math.imul(t ^ t >>> 15, t | 1);
+      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+  }
 
   const SYMBOL_TABLE = [
     { src: mb00, alt: 'Margin Boost' },
@@ -75,6 +90,9 @@
 
   let marginLevel = () => {
     const margin = rawMargin - 1; // lol
+
+    const rng = mulberry32(719 + margin);
+    const magic = rng();
 
     const highSymbol = Math.floor(margin / BOOSTS_PER_SYMBOL) + 1;
     const frac = margin % BOOSTS_PER_SYMBOL;
@@ -140,7 +158,7 @@
 </script>
 
 <div class="margin-score">
-  {#each symbols() as symbol}
+  {#each symbols() as symbol (symbol.index)}
     <img
       src={symbol.src}
       alt={symbol.alt}
