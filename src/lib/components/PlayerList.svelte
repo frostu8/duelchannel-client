@@ -18,9 +18,8 @@
 	<thead>
 		<tr>
 			<th scope="row"></th>
-			<th scope="row">Record</th>
-			<th scope="row">DR</th>
-			<th scope="row"></th>
+			<th scope="row" title="Amount of duels won over duels played">Record</th>
+			<th scope="row" colspan="2" title="Duel Rating (0-25000, higher is better) and rank letter">DR</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -36,6 +35,12 @@
 	}
 
 	.player-list > thead th {
+		/* Pin header to top */
+		position: sticky;
+		top: 0;
+		z-index: 10;
+
+		background-color: var(--bg-base);
 		color: var(--text-secondary);
 		padding: 12px;
 		font-weight: normal;

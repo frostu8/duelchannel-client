@@ -96,14 +96,16 @@
 
 <tr class="match-card">
 	<th scope="col" class="score text">
-		<span>{score()}</span>
+		{score()}
 	</th>
 	<td class="map-col">
-		<img
-			src={asset(`/thumbnails/${match.levelId}.png`)}
-			alt={match.levelName}
-			draggable="false"
-		/>
+		<a href="/duels/{match.id}">
+			<img
+				src={asset(`/thumbnails/${match.levelId}.png`)}
+				alt={`Duel on ${match.levelName}`}
+				draggable="false"
+			/>
+		</a>
 	</td>
 	<td class="text finish-time">
 		{#if finishTime() != null}
@@ -219,7 +221,7 @@
 	.map-col {
 		width: 1%;
 
-		& > img {
+		& img {
 			display: block;
 			width: 8em;
 			height: 2.5em;

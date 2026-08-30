@@ -37,18 +37,21 @@
 		</div>
 	</th>
 	<td class="record">
-		<span>{wins()}</span><span class="muted">/{total()} ({winPercentage()})</span>
+		{wins()}<span class="muted">/{total()} ({winPercentage()})</span>
 	</td>
 	<td class="rating-ordinal-display">
-		<div class="rating-ordinal">
+		<div class={{
+			["rating-ordinal"]: true,
+			["unrated"]: player.dr == null,
+		}}>
 			{#if drDisplay() != null}
-				<span>{drDisplay()}</span>
+				{drDisplay()}
 				<sub>{drDisplaySub()}</sub>
 			{:else if matchesLeft != null}
-				<span class="unrated">Unrated</span>
-				<sub class="unrated">({matchesLeft}/10)</sub>
+				Unrated
+				<sub>({matchesLeft}/10)</sub>
 			{:else}
-				<span class="unrated">Unrated</span>
+				Unrated
 			{/if}
 		</div>
 	</td>
@@ -89,10 +92,6 @@
 			padding: 0.75rem 0 0.75rem 0.75rem;
 		}
 
-		&.rank {
-			padding: 0 0.75rem;
-		}
-
 		&:first-child {
 			text-align: left;
 		}
@@ -108,10 +107,7 @@
 		align-items: center;
 		justify-content: right;
 		font-weight: bold;
-
-		span {
-			text-transform: uppercase;
-		}
+		text-transform: uppercase;
 
 		sub {
 			color: var(--text-secondary);
@@ -125,12 +121,12 @@
 	.muted,
 	.unrated {
 		color: var(--text-muted);
-	}
 
-	sub.unrated {
-		color: var(--text-muted);
-		margin-left: 6px;
-		font-weight: normal;
+		sub {
+			color: var(--text-muted);
+			margin-left: 6px;
+			font-weight: normal;
+		}
 	}
 
 	.unrated {
@@ -146,9 +142,14 @@
 		gap: 6px;
 	}
 
-	.rank > div {
-		display: flex;
-		flex-flow: row nowrap;
-		align-items: center;
+	.rank {
+		padding: 0 0.75rem;
+		width: 1%;
+
+		& > div {
+			display: flex;
+			flex-flow: row nowrap;
+			align-items: center;
+		}
 	}
 </style>
