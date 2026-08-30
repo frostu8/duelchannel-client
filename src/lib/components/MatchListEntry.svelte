@@ -95,12 +95,11 @@
 </script>
 
 <tr class="match-card">
-	<th scope="col" class="header text">
+	<th scope="col" class="score text">
 		<span>{score()}</span>
 	</th>
-	<td>
+	<td class="map-col">
 		<img
-			class="map-thumbnail"
 			src={asset(`/thumbnails/${match.levelId}.png`)}
 			alt={match.levelName}
 			draggable="false"
@@ -164,6 +163,10 @@
 </tr>
 
 <style>
+	th {
+		font-weight: normal;
+	}
+
 	.player-card {
 		display: flex;
 		flex-flow: row nowrap;
@@ -213,26 +216,26 @@
 		color: var(--text-muted);
 	}
 
-	.map-thumbnail {
-		display: block;
-		width: 8em;
-		height: 2.5em;
-		object-fit: cover;
-		object-position: center;
+	.map-col {
+		width: 1%;
 
-		/* Linear gradients */
-		-webkit-mask-image: linear-gradient(
-			to right,
-			transparent 0%,
-			black 25%,
-			black 75%,
-			transparent 100%
-		);
-		mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
-	}
+		& > img {
+			display: block;
+			width: 8em;
+			height: 2.5em;
+			object-fit: cover;
+			object-position: center;
 
-	.margin-score {
-		font-weight: bold;
+			/* Linear gradients */
+			-webkit-mask-image: linear-gradient(
+				to right,
+				transparent 0%,
+				black 25%,
+				black 75%,
+				transparent 100%
+			);
+			mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
+		}
 	}
 
 	.match-toolbar {

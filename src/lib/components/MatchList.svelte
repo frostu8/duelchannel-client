@@ -19,10 +19,8 @@
 		<tr>
 			<th scope="row">Score</th>
 			<th scope="row"></th>
-			<th scope="row"></th>
-			<th scope="row"></th>
-			<th scope="row"></th>
-			<th scope="row"></th>
+			<th scope="row">Time</th>
+			<th scope="row" colspan="3"></th>
 			<th scope="row">Margin Boost</th>
 			<th scope="row"></th>
 		</tr>
@@ -40,6 +38,12 @@
 	}
 
 	.match-list > thead th {
+		/* Pin header to top */
+		position: sticky;
+		top: 0;
+		z-index: 10; /* This has to be >5 to account for the margin boost icons */
+
+		background-color: var(--bg-base);
 		color: var(--text-secondary);
 		padding: 12px;
 		font-weight: normal;

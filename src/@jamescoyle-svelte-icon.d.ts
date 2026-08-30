@@ -3,6 +3,7 @@ declare module '@jamescoyle/svelte-icon' {
 	import { SvelteComponent } from 'svelte';
 	export default class SvgIcon extends SvelteComponent<{
 		type?: string;
+		class?: string;
 		path: string;
 		size?: string | number;
 		viewbox?: string;
