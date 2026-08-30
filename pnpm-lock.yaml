@@ -24,6 +24,9 @@ importers:
       '@mdi/js':
         specifier: ^7.4.47
         version: 7.4.47
+      '@smui-extra/autocomplete':
+        specifier: ^9.0.2
+        version: 9.0.2
       '@smui/button':
         specifier: ^9.0.0
         version: 9.0.0
@@ -39,6 +42,15 @@ importers:
       '@smui/line-ripple':
         specifier: ^9.0.0
         version: 9.0.0
+      '@smui/list':
+        specifier: ^9.0.2
+        version: 9.0.2
+      '@smui/menu':
+        specifier: ^9.0.2
+        version: 9.0.2
+      '@smui/menu-surface':
+        specifier: ^9.0.2
+        version: 9.0.2
       '@smui/notched-outline':
         specifier: ^9.0.0
         version: 9.0.0
@@ -576,6 +588,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@smui-extra/autocomplete@9.0.2':
+    resolution: {integrity: sha512-n7uj9ou+A9q0m9WahYpOVJkxlXX689bgv7WK2sTrlrLXF6Fau8z58FykixsHLTlz3zHW3nD2RSSBr0EL5mtVkQ==}
+
   '@smui/button@9.0.0':
     resolution: {integrity: sha512-qmNe4DtAGJ/0rIfjq+ME/rdgAeWgcEDvLjlLmCk6w6UO7hYzfPtE1KuuwX3E9yMbNs/rUEoyWzJUueGuc6vsxA==}
 
@@ -585,8 +600,14 @@ packages:
   '@smui/common@9.0.0':
     resolution: {integrity: sha512-m9N1RybCU3rVYD2ozawL1KhmuVo0TcftB+Dp9wyIXoFQQQabWocrnUYKJTmMHrehubxo0xlGA2PnarXGLhBLzA==}
 
+  '@smui/common@9.0.2':
+    resolution: {integrity: sha512-m2x8E8PJoULAzGL/A85eWdoQu79NADwHGXC32nPZ64K6BidoZa1gju1cOL7a9dWkcKxOlQ9mta6gVHMXqXVvzg==}
+
   '@smui/floating-label@9.0.0':
     resolution: {integrity: sha512-Yx288T3Uu5MxxTwomEiakuzWxYQO1kuDWbe0DfDBXM+tmoJPPwAAs0HhB1Mayg3rPllOHXY+6zW6XGdQ5vztUw==}
+
+  '@smui/floating-label@9.0.2':
+    resolution: {integrity: sha512-fTW3C9HMg0202hNvq9qYdGHgqbaUic3wG/bdyXAy5+luFAA/j2fsVISzQ/Ph/e6v7yTaNWQHaTpObJ8rokUqGA==}
 
   '@smui/icon-button@9.0.0':
     resolution: {integrity: sha512-sEafw2zoolqijRvA9JqhGCn+OyFffAQJVin99iPWT/Q4MulWmidXsoTP4nXTMlJNv/GRCnvx4PXRdC60/Ipn/w==}
@@ -594,14 +615,35 @@ packages:
   '@smui/line-ripple@9.0.0':
     resolution: {integrity: sha512-C947HSb71bLn5PtSG2zxiLnauvZ2xOVH0IwWrKTiyCHENZycAoER9iQDMWPBsqoC/56skpPKzCUq9Dq2sOMfdA==}
 
+  '@smui/line-ripple@9.0.2':
+    resolution: {integrity: sha512-qEZ0FRfN5FyFwjEqlsC+ZSoUO2l78CpkQtNWkkjBoNrqaZX/1TnJBWMU87Jo6R7l7Lr2nOvNTODe/AGHo9A1qQ==}
+
+  '@smui/list@9.0.2':
+    resolution: {integrity: sha512-o/TaUhW9tGdS9/QL1pNtIlybV/Lt7ktpe0bdGOkSmeaqEvrlY0OIJXi16ouAVTf9Rsm/FhKh1polAqgJ9ECLkw==}
+
+  '@smui/menu-surface@9.0.2':
+    resolution: {integrity: sha512-e2gtCxPYvK5v/tgrMDjPQvyMMk/kP4MQ/apEzJEJz/0y+7LVy4Jasm2b6sgkkC+5pP/Bt3XQHYSN8d2T2TF4jA==}
+
+  '@smui/menu@9.0.2':
+    resolution: {integrity: sha512-mafqS67FsPDzqG8OsP+o9sUzTXfvHNIUaTlS/PREWej6svQjsqEGKXVFVALICzqmXg4azhPJ35wufRC0mJckNw==}
+
   '@smui/notched-outline@9.0.0':
     resolution: {integrity: sha512-naVjMl94WPCbkDoDWg7o8ZZ2Br11jEUH6sBNWru5JO+oEVDhiAd2ukXHiatRlNkLAyvyqKZswjGVQ8/XH1mSoQ==}
+
+  '@smui/notched-outline@9.0.2':
+    resolution: {integrity: sha512-hs4tECH99W3N/H5ATCe41qkYgepQfAzPHAtFPrQzOMODO2bKpW9p3WpQWm9Pe9kyHebg66zUYTeNYv4KlejWlw==}
 
   '@smui/ripple@9.0.0':
     resolution: {integrity: sha512-eAtfRGIuLh+2mJELB1wtTVFsK8C1IGQQ+IyHjVls9QcQBE3DWNS159kNlx2apFgDCsG89xGSX2+wNUm2vliR5g==}
 
+  '@smui/ripple@9.0.2':
+    resolution: {integrity: sha512-MNKK20mhyKG8OpUoHU7ZwsaYMJKZqWxCnyvnp66P945SuLGg4/tGw+NI1K2qvSvDZj/vfdjC6JkTBtxmNNbZJQ==}
+
   '@smui/textfield@9.0.0':
     resolution: {integrity: sha512-GUZ9Ngsj8eSzEDrpbW/ub3QiokSSqE2y+Dcr9JJxuwJQht1gHv7H436ne7DTlw9uzXzWlrkioWVfcAMT0/4/MQ==}
+
+  '@smui/textfield@9.0.2':
+    resolution: {integrity: sha512-iMXfpZu9ImdixV6yugkxtSKonZ/084VF5IQywprl44yrt3Z8enxZ1Ps12y29Q+y57reDVZ8kuiaKTZAOWlQqxg==}
 
   '@smui/touch-target@9.0.0':
     resolution: {integrity: sha512-+0usvtwF2aOoqEWFPr8UTMLsWbAS+DjlVHmXk57h+9jBICy3KRpd5tqup92zWeYPfO4sCh6VPYP7Xw4axJk++g==}
@@ -1820,6 +1862,14 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.60.4':
     optional: true
 
+  '@smui-extra/autocomplete@9.0.2':
+    dependencies:
+      '@smui/common': 9.0.2
+      '@smui/list': 9.0.2
+      '@smui/menu': 9.0.2
+      '@smui/menu-surface': 9.0.2
+      '@smui/textfield': 9.0.2
+
   '@smui/button@9.0.0':
     dependencies:
       '@smui/common': 9.0.0
@@ -1837,28 +1887,65 @@ snapshots:
     dependencies:
       safevalues: 1.2.0
 
+  '@smui/common@9.0.2':
+    dependencies:
+      safevalues: 1.2.0
+
   '@smui/floating-label@9.0.0':
     dependencies:
       '@smui/common': 9.0.0
 
+  '@smui/floating-label@9.0.2':
+    dependencies:
+      '@smui/common': 9.0.2
+
   '@smui/icon-button@9.0.0':
     dependencies:
-      '@smui/common': 9.0.0
-      '@smui/ripple': 9.0.0
+      '@smui/common': 9.0.2
+      '@smui/ripple': 9.0.2
       '@smui/touch-target': 9.0.0
 
   '@smui/line-ripple@9.0.0':
     dependencies:
       '@smui/common': 9.0.0
 
+  '@smui/line-ripple@9.0.2':
+    dependencies:
+      '@smui/common': 9.0.2
+
+  '@smui/list@9.0.2':
+    dependencies:
+      '@smui/common': 9.0.2
+      '@smui/ripple': 9.0.2
+
+  '@smui/menu-surface@9.0.2':
+    dependencies:
+      '@smui/common': 9.0.2
+
+  '@smui/menu@9.0.2':
+    dependencies:
+      '@smui/common': 9.0.2
+      '@smui/list': 9.0.2
+      '@smui/menu-surface': 9.0.2
+      '@smui/ripple': 9.0.2
+
   '@smui/notched-outline@9.0.0':
     dependencies:
       '@smui/common': 9.0.0
       '@smui/floating-label': 9.0.0
 
+  '@smui/notched-outline@9.0.2':
+    dependencies:
+      '@smui/common': 9.0.2
+      '@smui/floating-label': 9.0.2
+
   '@smui/ripple@9.0.0':
     dependencies:
       '@smui/common': 9.0.0
+
+  '@smui/ripple@9.0.2':
+    dependencies:
+      '@smui/common': 9.0.2
 
   '@smui/textfield@9.0.0':
     dependencies:
@@ -1867,6 +1954,14 @@ snapshots:
       '@smui/line-ripple': 9.0.0
       '@smui/notched-outline': 9.0.0
       '@smui/ripple': 9.0.0
+
+  '@smui/textfield@9.0.2':
+    dependencies:
+      '@smui/common': 9.0.2
+      '@smui/floating-label': 9.0.2
+      '@smui/line-ripple': 9.0.2
+      '@smui/notched-outline': 9.0.2
+      '@smui/ripple': 9.0.2
 
   '@smui/touch-target@9.0.0':
     dependencies:

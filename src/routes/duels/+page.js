@@ -1,14 +1,17 @@
-import { getMatches } from '$lib/client/matches';
+import { BattleStatus, getMatches } from '$lib/client/matches';
 import { noop } from '@tanstack/svelte-query';
 
 /** @type {import('./$types').PageLoad} */
-export async function load({ fetch, parent }) {
+export async function load({ fetch, parent, url }) {
 	const { queryClient } = await parent();
+
+	const levelId = url.searchParams.get('level');
 
 	await queryClient
 		.infiniteQuery({
-			queryKey: ['matches'],
-			queryFn: ({ pageParam }) => getMatches(fetch, { before: pageParam }),
+			queryKey: ['matches', levelId],
+			queryFn: ({ pageParam }) =>
+				getMatches(fetch, { before: pageParam, level: levelId, status: BattleStatus.Concluded }),
 			// hopefully the remote isn't in the fucking future
 			initialPageParam: new Date().toISOString(),
 			getNextPageParam: (/** @type {import('$lib/client/matches').Match[]} */ lastPage) => {
@@ -20,4 +23,6 @@ export async function load({ fetch, parent }) {
 			}
 		})
 		.catch(noop);
+
+	return { levelId };
 }

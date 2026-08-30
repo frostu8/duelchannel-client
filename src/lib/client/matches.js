@@ -155,6 +155,7 @@ function normalizeMatch(match) {
  * @param {string | null} [options.before] - Only return matches started before
  * this timestamp.
  * @param {string | null} [options.level] - The id of the level to filter by.
+ * @param {BattleStatus | null} [options.status] - Filter by status.
  * @returns {Promise<Match[]>} - The matches.
  */
 export async function getMatches(fetch, options = {}) {

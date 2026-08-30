@@ -34,7 +34,7 @@
 	 * @returns {number}
 	 */
 	function ticsToSeconds(tics) {
-		return Math.floor(tics / TICRATE % 60);
+		return Math.floor((tics / TICRATE) % 60);
 	}
 
 	/**
@@ -44,7 +44,7 @@
 	 * @returns {number}
 	 */
 	function ticsToCentiseconds(tics) {
-		return Math.floor(tics % TICRATE * (100 / TICRATE));
+		return Math.floor((tics % TICRATE) * (100 / TICRATE));
 	}
 
 	let playerLeft = $derived.by(() => {
@@ -71,10 +71,7 @@
 	};
 
 	let finishTime = () => {
-		const participants = match
-			.participants
-			.map(p => p.finishTime)
-			.filter(p => p != null);
+		const participants = match.participants.map((p) => p.finishTime).filter((p) => p != null);
 
 		if (participants.length === 0) return null;
 		const timeTics = participants.reduce((acc, x) => {
@@ -86,15 +83,15 @@
 		});
 
 		if (timeTics != null) {
-			const minutes = ticsToMinutes(timeTics).toString().padStart(2, "0");
-			const seconds = ticsToSeconds(timeTics).toString().padStart(2, "0");
-			const centiSeconds = ticsToCentiseconds(timeTics).toString().padStart(2, "0");
+			const minutes = ticsToMinutes(timeTics).toString().padStart(2, '0');
+			const seconds = ticsToSeconds(timeTics).toString().padStart(2, '0');
+			const centiSeconds = ticsToCentiseconds(timeTics).toString().padStart(2, '0');
 
 			return `${minutes}'${seconds}"${centiSeconds}`;
 		} else {
 			return null;
 		}
-	}
+	};
 </script>
 
 <tr class="match-card">
@@ -181,8 +178,8 @@
 			flex: 0 1 auto;
 			max-width: 10em;
 			white-space: nowrap;
-		  overflow: hidden;
-		  text-overflow: ellipsis;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
 		& a {
