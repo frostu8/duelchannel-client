@@ -6,9 +6,9 @@ import { normalizePlayer } from '$lib/client/players';
  * @enum {number}
  */
 export const BattleStatus = {
-  Ongoing: 0,
-  Concluded: 1,
-  Cancelled: 2,
+	Ongoing: 0,
+	Concluded: 1,
+	Cancelled: 2
 };
 
 /**
@@ -88,11 +88,11 @@ export const BattleStatus = {
  * @returns {ItemUsage}
  */
 function normalizeItemUsage(itemUsage) {
-  return {
-    item: itemUsage["item"],
-    stack: itemUsage["stack"],
-    count: itemUsage["count"],
-  };
+	return {
+		item: itemUsage['item'],
+		stack: itemUsage['stack'],
+		count: itemUsage['count']
+	};
 }
 
 /**
@@ -100,15 +100,15 @@ function normalizeItemUsage(itemUsage) {
  * @returns {Skin | null}
  */
 function normalizeSkin(skin) {
-  if (skin == null) {
-    return skin;
-  }
-  return {
-    name: skin["name"],
-    realName: skin["real_name"],
-    kartSpeed: skin["kart_speed"],
-    kartWeight: skin["kart_weight"],
-  };
+	if (skin == null) {
+		return skin;
+	}
+	return {
+		name: skin['name'],
+		realName: skin['real_name'],
+		kartSpeed: skin['kart_speed'],
+		kartWeight: skin['kart_weight']
+	};
 }
 
 /**
@@ -116,19 +116,17 @@ function normalizeSkin(skin) {
  * @returns {Participant}
  */
 function normalizeParticipant(participant) {
-  return {
-    name: participant["name"],
-    team: participant["team"],
-    score: participant["score"],
-    roulette: /** @type {any[]} */ (participant["roulette"]).map(
-      normalizeItemUsage,
-    ),
-    user: normalizePlayer(participant["user"]),
-    finishTime: participant["finish_time"],
-    noContest: participant["no_contest"],
-    skin: normalizeSkin(participant["skin"]),
-    skinColor: participant["skin_color"],
-  };
+	return {
+		name: participant['name'],
+		team: participant['team'],
+		score: participant['score'],
+		roulette: /** @type {any[]} */ (participant['roulette']).map(normalizeItemUsage),
+		user: normalizePlayer(participant['user']),
+		finishTime: participant['finish_time'],
+		noContest: participant['no_contest'],
+		skin: normalizeSkin(participant['skin']),
+		skinColor: participant['skin_color']
+	};
 }
 
 /**
@@ -136,27 +134,39 @@ function normalizeParticipant(participant) {
  * @returns {Match}
  */
 function normalizeMatch(match) {
-  return {
-    id: match["id"],
-    levelId: match["level_id"],
-    levelName: match["level_name"],
-    status: match["status"],
-    marginScore: match["margin_score"],
-    startedAt: match["started_at"],
-    participants: /** @type {any[]} */ (match["participants"]).map(
-      normalizeParticipant,
-    ),
-    replayUrl: match["replay_url"],
-  };
+	return {
+		id: match['id'],
+		levelId: match['level_id'],
+		levelName: match['level_name'],
+		status: match['status'],
+		marginScore: match['margin_score'],
+		startedAt: match['started_at'],
+		participants: /** @type {any[]} */ (match['participants']).map(normalizeParticipant),
+		replayUrl: match['replay_url']
+	};
 }
 
 /**
  * Gets the list of matches from the API.
  *
  * @param {import('@sveltejs/kit').LoadEvent['fetch']} fetch - A fetch function.
+ * @param {object} [options]
+ * @param {number} [options.count] - Page size.
+ * @param {string | null} [options.before] - Only return matches started before
+ * this timestamp.
+ * @param {string | null} [options.level] - The id of the level to filter by.
  * @returns {Promise<Match[]>} - The matches.
  */
-export async function getMatches(fetch) {
-  const res = await fetch(`/api/v1/matches`);
-  return /** @type {any[]} */ (await res.json()).map(normalizeMatch);
+export async function getMatches(fetch, options = {}) {
+	// Normalize and spit out
+	const query = new URLSearchParams(
+		Object.fromEntries(
+			Object.entries(options)
+				.map(([key, val]) => [key, val?.toString()])
+				.filter(([_, val]) => val != null)
+		)
+	);
+
+	const res = await fetch(`/api/v1/matches?${query}`);
+	return /** @type {any[]} */ (await res.json()).map(normalizeMatch);
 }

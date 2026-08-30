@@ -3,30 +3,41 @@
 	import favicon from '$lib/assets/favicon.png';
 	import '../app.scss';
 
-	let { children } = $props();
+	import { QueryClientProvider } from '@tanstack/svelte-query';
+
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('./$types').LayoutData} data
+	 * @property {import('svelte').Snippet} children
+	 */
+
+	/** @type {Props} */
+	let { children, data } = $props();
 </script>
 
 <svelte:head>
 	<link rel="icon" type="image/png" href={favicon} />
 </svelte:head>
 
-<div class="dc-app-container">
-	<NavigationBar />
-	<main class="dc-main">
-		{@render children()}
-	</main>
-</div>
+<QueryClientProvider client={data.queryClient}>
+	<div class="app-container">
+		<NavigationBar />
+		<main class="main">
+			{@render children()}
+		</main>
+	</div>
+</QueryClientProvider>
 
 <style>
-	.dc-app-container {
+	.app-container {
 		display: flex;
 		flex-flow: column nowrap;
 		height: 100%;
 	}
 
-	.dc-main {
-		flex-grow: 1;
+	.main {
+		flex: 0 1 auto;
 		width: 100%;
-		overflow: scroll;
+		min-height: 0;
 	}
 </style>

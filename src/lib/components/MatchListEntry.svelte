@@ -6,87 +6,161 @@
 	import SvgIcon from '@jamescoyle/svelte-icon';
 	import { mdiDownload, mdiDownloadOffOutline } from '@mdi/js';
 
-  /**
-   * @typedef {Object} PlayerListEntryProps
-   * @property {import('$lib/client/matches').Match} match
-   * The match to render.
-   */
+	/**
+	 * @typedef {Object} PlayerListEntryProps
+	 * @property {import('$lib/client/matches').Match} match
+	 * The match to render.
+	 */
 
-  /** @type {PlayerListEntryProps} */
-  let { match } = $props();
+	/** @type {PlayerListEntryProps} */
+	let { match } = $props();
 
-  let playerLeft = $derived.by(() => {
-  	if (match.participants.length == 2) {
-	  	let [playerLeft, _] = match.participants;
-	  	return playerLeft;
-  	} else {
-  		return null;
-  	}
-  });
-  let playerRight = $derived.by(() => {
-  	if (match.participants.length == 2) {
-	  	let [_, playerRight] = match.participants;
-	  	return playerRight;
-  	} else {
-  		return null;
-  	}
-  });
+	const TICRATE = 35;
 
-  let score = () => `${playerLeft?.score} - ${playerRight?.score}`;
+	/**
+	 * Converts tics to minutes.
+	 *
+	 * @param {number} tics
+	 * @returns {number}
+	 */
+	function ticsToMinutes(tics) {
+		return Math.floor(tics / (60 * TICRATE));
+	}
+
+	/**
+	 * Converts tics to seconds.
+	 *
+	 * @param {number} tics
+	 * @returns {number}
+	 */
+	function ticsToSeconds(tics) {
+		return Math.floor(tics / TICRATE % 60);
+	}
+
+	/**
+	 * Converts tics to centiseconds.
+	 *
+	 * @param {number} tics
+	 * @returns {number}
+	 */
+	function ticsToCentiseconds(tics) {
+		return Math.floor(tics % TICRATE * (100 / TICRATE));
+	}
+
+	let playerLeft = $derived.by(() => {
+		if (match.participants.length == 2) {
+			let [playerLeft, _] = match.participants;
+			return playerLeft;
+		} else {
+			return null;
+		}
+	});
+	let playerRight = $derived.by(() => {
+		if (match.participants.length == 2) {
+			let [_, playerRight] = match.participants;
+			return playerRight;
+		} else {
+			return null;
+		}
+	});
+
+	let score = () => {
+		if (!playerLeft?.score && !playerRight?.score) return '-';
+
+		return `${playerLeft?.score} - ${playerRight?.score}`;
+	};
+
+	let finishTime = () => {
+		const participants = match
+			.participants
+			.map(p => p.finishTime)
+			.filter(p => p != null);
+
+		if (participants.length === 0) return null;
+		const timeTics = participants.reduce((acc, x) => {
+			if (acc < x) {
+				return acc;
+			} else {
+				return x;
+			}
+		});
+
+		if (timeTics != null) {
+			const minutes = ticsToMinutes(timeTics).toString().padStart(2, "0");
+			const seconds = ticsToSeconds(timeTics).toString().padStart(2, "0");
+			const centiSeconds = ticsToCentiseconds(timeTics).toString().padStart(2, "0");
+
+			return `${minutes}'${seconds}"${centiSeconds}`;
+		} else {
+			return null;
+		}
+	}
 </script>
 
 <tr class="match-card">
-  <th scope="col" class="header text">
-    <span>{score()}</span>
-  </th>
-  <td>
-    <img
-    	class="map-thumbnail"
-    	src={asset(`/thumbnails/${match.levelId}.png`)}
-    	alt={match.levelName}
-    	draggable="false"
-    />
-  </td>
-	{#snippet playerCard(/** @type {import('$lib/client/matches').Participant} */ player, /** @type {boolean} */ right = false)}
+	<th scope="col" class="header text">
+		<span>{score()}</span>
+	</th>
+	<td>
+		<img
+			class="map-thumbnail"
+			src={asset(`/thumbnails/${match.levelId}.png`)}
+			alt={match.levelName}
+			draggable="false"
+		/>
+	</td>
+	<td class="text finish-time">
+		{#if finishTime() != null}
+			{finishTime()}
+		{:else}
+			––'––"––
+		{/if}
+	</td>
+	{#snippet playerCard(
+		/** @type {import('$lib/client/matches').Participant} */ player,
+		/** @type {boolean} */ right = false
+	)}
 		<td>
-  		<div class={{
-  			["player-card"]: true,
-  			["right"]: right,
-	  	}}>
-  			{#if player.user.rank != null && !right}
-	  			<RankDisplay rank={player.user.rank} --height="1.5em"/>
-  			{/if}
-		  	<a href="/player/{player.user.id}">
-		  		{player.user.displayName}
-		  	</a>
-  			{#if player.user.rank != null && right}
-	  			<RankDisplay rank={player.user.rank} --height="1.5em"/>
-  			{/if}
-  		</div>
+			<div
+				class={{
+					['player-card']: true,
+					['right']: right
+				}}
+			>
+				{#if player.user.rank != null && !right}
+					<RankDisplay rank={player.user.rank} --height="1.5em" />
+				{/if}
+				<div>
+					<a href="/player/{player.user.id}">
+						{player.user.displayName}
+					</a>
+				</div>
+				{#if player.user.rank != null && right}
+					<RankDisplay rank={player.user.rank} --height="1.5em" />
+				{/if}
+			</div>
 		</td>
 	{/snippet}
 	{#if playerRight != null && playerLeft != null}
-		{@render playerCard(playerRight)}
-  	<td class="text">
-  		vs
-  	</td>
-		{@render playerCard(playerLeft, true)}
+		{@render playerCard(playerLeft)}
+		<td class="text"> vs </td>
+		{@render playerCard(playerRight, true)}
 	{/if}
 	<td class="margin-score">
 		{#if match.marginScore > 0}
-			<MarginScore margin={match.marginScore} --height="2em"/>
+			<MarginScore margin={match.marginScore} --height="2em" />
 		{/if}
 	</td>
 	<td class="text">
 		<div class="match-toolbar">
 			{#if match.replayUrl != null}
-			<a class="replay-btn" href={match.replayUrl}>
-				<SvgIcon type="mdi" path={mdiDownload}></SvgIcon>
-			</a>
+				<a class="replay-btn" href={match.replayUrl}>
+					<SvgIcon type="mdi" path={mdiDownload}></SvgIcon>
+				</a>
 			{:else}
-			<span title="The replay was lost or otherwise expired.">
-				<SvgIcon type="mdi" path={mdiDownloadOffOutline}></SvgIcon>
-			</span>
+				<span title="The replay was lost or otherwise expired.">
+					<SvgIcon type="mdi" path={mdiDownloadOffOutline}></SvgIcon>
+				</span>
 			{/if}
 		</div>
 	</td>
@@ -103,7 +177,16 @@
 			justify-content: flex-end;
 		}
 
-		& > a {
+		& > div {
+			flex: 0 1 auto;
+			max-width: 10em;
+			white-space: nowrap;
+		  overflow: hidden;
+		  text-overflow: ellipsis;
+		}
+
+		& a {
+			text-transform: uppercase;
 			color: var(--text-secondary);
 			font-weight: bold;
 			text-decoration: none;
@@ -125,20 +208,30 @@
 
 	.text {
 		color: var(--text-secondary);
-	  text-align: center;
-	  padding: 0.75rem;
+		text-align: center;
+		padding: 0.75rem;
+	}
+
+	.finish-time {
+		color: var(--text-muted);
 	}
 
 	.map-thumbnail {
 		display: block;
-	  width: 8em;
-	  height: 2.5em;
-  	object-fit: cover;
-  	object-position: center;
+		width: 8em;
+		height: 2.5em;
+		object-fit: cover;
+		object-position: center;
 
-  	/* Linear gradients */
-  	-webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
-  	mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
+		/* Linear gradients */
+		-webkit-mask-image: linear-gradient(
+			to right,
+			transparent 0%,
+			black 25%,
+			black 75%,
+			transparent 100%
+		);
+		mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
 	}
 
 	.margin-score {

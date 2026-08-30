@@ -12,18 +12,19 @@
 	/** @type {Props} */
 	let { player } = $props();
 
-	let drDisplay = () => player.dr != null ? Math.floor(player.dr).toLocaleString() : null;
-	let drDisplaySub = () => player.dr != null
-		? "." + ((player.dr - Math.trunc(player.dr)) * 100).toFixed(0).padStart(2, '0')
-		: null;
+	let drDisplay = () => (player.dr != null ? Math.floor(player.dr).toLocaleString() : null);
+	let drDisplaySub = () =>
+		player.dr != null
+			? '.' + ((player.dr - Math.trunc(player.dr)) * 100).toFixed(0).padStart(2, '0')
+			: null;
 
 	let wins = () => Math.floor(player.matchesPlayed * player.winRatio).toLocaleString();
 	let total = () => player.matchesPlayed.toLocaleString();
-	let winPercentage = () => (player.winRatio * 100).toFixed(2) + "%";
+	let winPercentage = () => (player.winRatio * 100).toFixed(2) + '%';
 
-	let matchesLeft = $derived.by(() => player.matchesUntilRated != null
-		? 10 - player.matchesUntilRated
-		: null)
+	let matchesLeft = $derived.by(() =>
+		player.matchesUntilRated != null ? 10 - player.matchesUntilRated : null
+	);
 </script>
 
 <tr class="player-card">
@@ -54,7 +55,7 @@
 	<td class="rank">
 		{#if player.rank != null}
 			<div>
-				<RankDisplay rank={player.rank} --height="1.78em"/>
+				<RankDisplay rank={player.rank} --height="1.78em" />
 			</div>
 		{/if}
 	</td>

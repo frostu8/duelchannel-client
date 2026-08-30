@@ -22,17 +22,17 @@
  * @returns {Player}
  */
 export function normalizePlayer(player) {
-  return {
-    id: player["id"],
-    displayName: player["display_name"],
-    avatarUrl: player["avatar_url"],
-    dr: player["dr"],
-    rank: player["rank"],
-    flags: player["flags"],
-    matchesPlayed: player["matches_played"],
-    winRatio: player["win_ratio"],
-    matchesUntilRated: player["matches_until_rated"],
-  };
+	return {
+		id: player['id'],
+		displayName: player['display_name'],
+		avatarUrl: player['avatar_url'],
+		dr: player['dr'],
+		rank: player['rank'],
+		flags: player['flags'],
+		matchesPlayed: player['matches_played'],
+		winRatio: player['win_ratio'],
+		matchesUntilRated: player['matches_until_rated']
+	};
 }
 
 /**

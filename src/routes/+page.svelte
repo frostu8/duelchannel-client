@@ -5,14 +5,16 @@
 </script>
 
 <article class="player-list">
-	<PlayerList players={data.players} class="player-list-inner"/>
+	<PlayerList players={data.players} class="player-list-inner" />
 </article>
 
 <style>
 	.player-list {
-		max-width: 960px;
+		max-width: 1080px;
 		margin: auto;
 		font-size: 1.2rem;
+		overflow-y: scroll;
+		height: 100%;
 	}
 
 	:global(.player-list-inner) {
