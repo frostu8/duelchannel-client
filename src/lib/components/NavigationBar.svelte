@@ -8,6 +8,7 @@
 </script>
 
 <nav class="navbar">
+	<div class="header"></div>
 	{#snippet btn(title: string, href: AppRoute)}
 		<a
 			href={resolve(href)}
@@ -22,17 +23,23 @@
 	{@render btn('Leaderboard', '/')}
 	{@render btn('Duels', '/duels')}
 	<!-- {@render btn('Servers', '/servers')} -->
+	<div class="search-container">
+	</div>
 </nav>
 
 <style>
 	.navbar {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-start;
 		gap: 4px;
 		padding: 0 12px;
 		background: var(--bg-secondary);
 		border-bottom: 2px solid var(--bg-primary);
+	}
+
+	.header {
+		padding: 0 4em;
 	}
 
 	.navbar-btn {
@@ -43,10 +50,15 @@
 		color: var(--text-secondary);
 		text-decoration: none;
 		border-bottom: 2px solid var(--bg-primary);
+
+		&.selected {
+			color: var(--accent);
+			border-color: var(--accent);
+		}
 	}
 
-	.navbar-btn.selected {
-		color: var(--accent);
-		border-color: var(--accent);
+	.search-container {
+		flex: 1 0 auto;
+		height: 100%;
 	}
 </style>

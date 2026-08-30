@@ -10,10 +10,14 @@
 	 * @typedef {Object} PlayerListEntryProps
 	 * @property {import('$lib/client/matches').Match} match
 	 * The match to render.
+	 * @property {"victory" | "defeat" | "no_contest" | null} [outcome]
+	 * How the entry should render.
+	 * @property {boolean} [showOpponentOnly=false]
+	 * Only show the opponent (the second participant).
 	 */
 
 	/** @type {PlayerListEntryProps} */
-	let { match } = $props();
+	let { match, outcome, showOpponentOnly = false } = $props();
 
 	const TICRATE = 35;
 
@@ -65,8 +69,7 @@
 	});
 
 	let score = () => {
-		if (!playerLeft?.score && !playerRight?.score) return '-';
-
+		if (!playerLeft?.score && !playerRight?.score) return null;
 		return `${playerLeft?.score} - ${playerRight?.score}`;
 	};
 
@@ -94,26 +97,23 @@
 	};
 </script>
 
-<tr class="match-card">
-	<th scope="col" class="score text">
-		{score()}
-	</th>
-	<td class="map-col">
-		<a href="/duels/{match.id}">
-			<img
-				src={asset(`/thumbnails/${match.levelId}.png`)}
-				alt={`Duel on ${match.levelName}`}
-				draggable="false"
-			/>
-		</a>
-	</td>
-	<td class="text finish-time">
-		{#if finishTime() != null}
-			{finishTime()}
+<tr
+	class={{
+		["match-card"]: true,
+		["opponent-only"]: showOpponentOnly,
+		["victory"]: outcome === "victory",
+		["defeat"]: outcome === "defeat",
+	}}
+>
+	<th scope="col">
+		{#if outcome === 'victory'}
+			<span>VICTORY {score()}</span>
+		{:else if outcome === 'defeat'}
+			<span>DEFEAT {score()}</span>
 		{:else}
-			––'––"––
+			<span>{score() ? score() : '-'}</span>
 		{/if}
-	</td>
+	</th>
 	{#snippet playerCard(
 		/** @type {import('$lib/client/matches').Participant} */ player,
 		/** @type {boolean} */ right = false
@@ -140,10 +140,30 @@
 		</td>
 	{/snippet}
 	{#if playerRight != null && playerLeft != null}
-		{@render playerCard(playerLeft)}
-		<td class="text"> vs </td>
-		{@render playerCard(playerRight, true)}
+		<!-- Note, we can skip the first player if we're already scoped
+			to a user -->
+		{#if !showOpponentOnly}
+			{@render playerCard(playerLeft)}
+		{/if}
+		<td class="vs-text">vs</td>
+		{@render playerCard(playerRight, !showOpponentOnly)}
 	{/if}
+	<td class="map-col">
+		<a href="/duels/{match.id}">
+			<img
+				src={asset(`/thumbnails/${match.levelId}.png`)}
+				alt={`Duel on ${match.levelName}`}
+				draggable="false"
+			/>
+		</a>
+	</td>
+	<td class="text finish-time">
+		{#if finishTime() != null}
+			{finishTime()}
+		{:else}
+			––'––"––
+		{/if}
+	</td>
 	<td class="margin-score">
 		{#if match.marginScore > 0}
 			<MarginScore margin={match.marginScore} --height="2em" />
@@ -165,12 +185,10 @@
 </tr>
 
 <style>
-	th {
-		font-weight: normal;
-	}
-
 	.player-card {
 		display: flex;
+		margin: 0 16px;
+
 		flex-flow: row nowrap;
 		gap: 8px;
 		align-items: center;
@@ -206,12 +224,51 @@
 		&:nth-child(even) {
 			background-color: var(--bg-secondary);
 		}
+
+		--entry-color: var(--bg-base);
+		--entry-fade-color: var(--bg-base);
+		--entry-text-color: var(--text-secondary);
+
+		&.victory {
+			--entry-color: #ffa742;
+			--entry-fade-color: #e66d27;
+			--entry-text-color: black;
+
+			& th {
+				font-weight: bold;
+			}
+		}
+		&.defeat {
+			--entry-color: #8b8bff;
+			--entry-fade-color: #6445d6;
+			--entry-text-color: black;
+
+			& th {
+				font-weight: bold;
+			}
+		}
+	}
+
+	.opponent-only {
+		.player-card {
+			margin-left: 0;
+		}
+
+		.vs-text {
+			padding-left: 0.5em;
+		}
 	}
 
 	.text {
 		color: var(--text-secondary);
 		text-align: center;
 		padding: 0.75rem;
+	}
+
+	.vs-text {
+		color: var(--text-muted);
+		text-align: center;
+		padding: 0.75rem 0;
 	}
 
 	.finish-time {
@@ -252,6 +309,40 @@
 		&:hover {
 			color: white;
 		}
+	}
+
+	th {
+		font-weight: normal;
+		font-size: inherit;
+		text-align: right;
+
+		align-self: stretch;
+
+		position: relative;
+		padding: 0.5rem;
+		margin-right: 0.5rem;
+		padding-bottom: calc(0.5rem + 2px);
+		transform: translate(0, 1px);
+
+		color: var(--entry-text-color);
+		background: linear-gradient(to right, var(--entry-fade-color) 0%, var(--entry-color) 80%);
+
+		&::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 100%;
+
+			width: 12px;
+			height: 100%;
+
+			background-color: var(--entry-color);
+			clip-path: polygon(0 0, 100% 100%, 0 100%);
+		}
+	}
+
+	td {
+		border-bottom: 2px solid var(--entry-color);
 	}
 
 	:global(.replay-btn > svg) {

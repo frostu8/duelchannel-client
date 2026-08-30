@@ -9,7 +9,7 @@ export async function load({ fetch, parent, url }) {
 
 	await queryClient
 		.infiniteQuery({
-			queryKey: ['matches', levelId],
+			queryKey: ['matches', { level: levelId, user: null }],
 			queryFn: ({ pageParam }) =>
 				getMatches(fetch, { before: pageParam, level: levelId, status: BattleStatus.Concluded }),
 			// hopefully the remote isn't in the fucking future

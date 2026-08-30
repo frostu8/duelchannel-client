@@ -24,8 +24,6 @@
 	/** @type {string} */
 	let levelQuery = $state('');
 
-	let matchListElement = $state();
-
 	async function fetchLevels() {
 		const servers = await getServers(fetch);
 		return servers
@@ -51,7 +49,7 @@
 	}
 
 	const query = createInfiniteQuery(() => ({
-		queryKey: ['matches', data.levelId],
+		queryKey: ['matches', { level: data.levelId, user: null }],
 		queryFn: ({ pageParam }) =>
 			getMatches(fetch, { before: pageParam, level: data.levelId, status: BattleStatus.Concluded }),
 		// hopefully the remote isn't in the fucking future
@@ -69,13 +67,13 @@
 		return query.data?.pages.flat().filter(match => match.participants.length == 2);
 	});
 
-	let sentinel = $state();
-
 	onMount(async () => {
 		// Fetch levels async
 		levels = await fetchLevels();
 	});
 
+	let list = $state();
+	let sentinel = $state();
 	$effect(() => {
 		if (!sentinel) return;
 		const observer = new IntersectionObserver(
@@ -86,14 +84,14 @@
 			},
 			// Pre-fetch 600px before the bottom so it feels seamless
 			{
-				root: matchListElement,
+				root: list,
 				rootMargin: '600px',
 			},
 		);
 
 		if (sentinel) observer.observe(sentinel);
 		return () => observer.disconnect();
-	})
+	});
 </script>
 
 <article>
@@ -117,7 +115,7 @@
 			</Textfield>
 		</Autocomplete>
 	</section>
-	<section class="match-list" bind:this={matchListElement}>
+	<section class="match-list" bind:this={list}>
 		{#if matches != null}
 			<MatchList {matches} class="match-list-inner" />
 			<div class="footer" bind:this={sentinel}>
@@ -147,7 +145,7 @@
 		align-items: center;
 		gap: 18px;
 
-		margin: 1em 0;
+		margin: 1rem 0 1rem 2.5rem;
 	}
 
 	:global(.filter-bar svg) {

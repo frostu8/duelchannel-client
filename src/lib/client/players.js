@@ -36,7 +36,19 @@ export function normalizePlayer(player) {
 }
 
 /**
- * A list of players.
+ * Fetches a specific player.
+ *
+ * @param {import('@sveltejs/kit').LoadEvent['fetch']} fetch - A fetch function.
+ * @param {string} userId - The id of the player to fetch.
+ * @returns {Promise<Player>} - The player.
+ */
+export async function getSinglePlayer(fetch, userId) {
+	const res = await fetch(`/api/v1/players/${userId}`);
+	return normalizePlayer(await res.json());
+}
+
+/**
+ * Fetches a list of players sorted by DR.
  *
  * @param {import('@sveltejs/kit').LoadEvent['fetch']} fetch - A fetch function.
  * @param {number} [count=50] - The number to fetch.

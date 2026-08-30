@@ -5,29 +5,91 @@
 	 * @typedef {Object} MatchListProps
 	 * @property {import('$lib/client/matches').Match[]} matches
 	 * A list of matches to display.
+	 * @property {string | null} [user]
+	 * The user to filter by. This will also arrange participant lists so that
+	 * the user comes first in the list.
 	 * @property {string | string[]} class
 	 */
 
 	/** @type {MatchListProps} */
-	let { matches, class: className } = $props();
+	let {
+		matches,
+		user,
+		class: className,
+	} = $props();
 
 	let tableClass = () => [className].flat().concat(['match-list']);
+
+	/**
+	 * @param {import('$lib/client/matches').Participant} a
+	 * @param {import('$lib/client/matches').Participant} b
+	 */
+	let compareFn = (a, b) => {
+		if (a.user.id === user) {
+			return -1;
+		} else if (b.user.id === user){
+			return 1;
+		} else {
+			return 0;
+		}
+	};
+
+	/**
+	 * @typedef {"victory" | "defeat"} MatchOutcome
+	 */
+
+	/**
+	 * @typedef {import('$lib/client/matches').Match & { outcome?: MatchOutcome }} MatchWithOutcome
+	 */
+
+	/**
+	 * @returns {MatchWithOutcome[]}
+	 */
+	const matchesFiltered = () => {
+		if (user != null) {
+			return matches
+				.filter(match => match.participants.some(p => p.user.id === user))
+				// push the player to the top of the list
+				.map(match => ({ ...match, participants: match.participants.sort(compareFn) }))
+				.map(match => {
+					// Add an additional property, "result," to the match.
+					// From the filter above, we know that the first participant is
+					// always the player we are inspecting.
+					const me = match.participants[0];
+
+					if (me.noContest) {
+						return { ...match, outcome: "defeat" };
+					} else {
+						return { ...match, outcome: "victory" };
+					}
+				});
+		} else {
+			return matches;
+		}
+	};
 </script>
 
 <table class={tableClass()}>
 	<thead>
 		<tr>
-			<th scope="row">Score</th>
+			<th scope="row" title="The score the players finished with">Score</th>
+			<th
+				scope="row"
+				colspan={user != null ? 2 : 3}
+			></th>
 			<th scope="row"></th>
-			<th scope="row">Time</th>
-			<th scope="row" colspan="3"></th>
-			<th scope="row">Margin Boost</th>
+			<th scope="row" title="The total duel time">Time</th>
+			<th scope="row" title="The final margin boost of the battle">M.Boost</th>
 			<th scope="row"></th>
 		</tr>
 	</thead>
 	<tbody>
-		{#each matches as match (match.id)}
-			<MatchListEntry {match} />
+		{#each matchesFiltered() as match (match.id)}
+			<MatchListEntry
+				{match}
+				outcome={match.outcome}
+				showOpponentOnly={user != null}
+			/>
 		{/each}
 	</tbody>
 </table>
