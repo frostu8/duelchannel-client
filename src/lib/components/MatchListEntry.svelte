@@ -54,17 +54,13 @@
   			["right"]: right,
 	  	}}>
   			{#if player.user.rank != null && !right}
-  				<div class="rank">
-		  			<RankDisplay rank={player.user.rank} --height="1.5em"/>
-	  			</div>
+	  			<RankDisplay rank={player.user.rank} --height="1.5em"/>
   			{/if}
 		  	<a href="/player/{player.user.id}">
 		  		{player.user.displayName}
 		  	</a>
   			{#if player.user.rank != null && right}
-  				<div class="rank">
-		  			<RankDisplay rank={player.user.rank} --height="1.5em"/>
-	  			</div>
+	  			<RankDisplay rank={player.user.rank} --height="1.5em"/>
   			{/if}
   		</div>
 		</td>
@@ -171,9 +167,5 @@
 		/* muted text for inaccessible icons */
 		color: var(--text-muted);
 		display: block;
-	}
-
-	.rank {
-		margin: 0 0.5em;
 	}
 </style>
