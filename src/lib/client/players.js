@@ -51,10 +51,23 @@ export async function getSinglePlayer(fetch, userId) {
  * Fetches a list of players sorted by DR.
  *
  * @param {import('@sveltejs/kit').LoadEvent['fetch']} fetch - A fetch function.
- * @param {number} [count=50] - The number to fetch.
+ * @param {object} [options]
+ * @param {string} [options.search]
+ * The search term to filter users by.
+ * @param {number} [options.count]
+ * How many players to return.
  * @returns {Promise<Player[]>} - The players.
  */
-export async function getPlayers(fetch, count = 50) {
-	const res = await fetch(`/api/v1/players?count=${count}`);
+export async function getPlayers(fetch, options = {}) {
+	// Normalize query stuff
+	const query = new URLSearchParams(
+		Object.fromEntries(
+			Object.entries(options)
+				.map(([key, val]) => [key, val?.toString()])
+				.filter(([_, val]) => val != null)
+		)
+	)
+
+	const res = await fetch(`/api/v1/players?${query}`);
 	return /** @type {any[]} */ (await res.json()).map(normalizePlayer);
 }

@@ -1,10 +1,19 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import type { Pathname, RouteId } from '$app/types';
+	import type { Player } from '$lib/client/players';
+	import PlayerSearch from './PlayerSearch.svelte';
 
 	/** A navbar-linkable route. Only parameterless routes are supported. */
 	type AppRoute = RouteId | Pathname;
+
+	let searchText = $state('');
+	function navigateUser(user: Player) {
+		searchText = ''; // clear search text
+		goto(`/player/${user.id}`);
+	}
 </script>
 
 <nav class="navbar">
@@ -24,6 +33,7 @@
 	{@render btn('Duels', '/duels')}
 	<!-- {@render btn('Servers', '/servers')} -->
 	<div class="search-container">
+		<PlayerSearch bind:text={searchText} onSelect={navigateUser}/>
 	</div>
 </nav>
 
@@ -39,7 +49,7 @@
 	}
 
 	.header {
-		padding: 0 4em;
+		margin: 0 4em;
 	}
 
 	.navbar-btn {
@@ -60,5 +70,10 @@
 	.search-container {
 		flex: 1 0 auto;
 		height: 100%;
+
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: flex-end;
+		margin: 0 8em;
 	}
 </style>

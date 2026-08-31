@@ -23,6 +23,7 @@
 		"@smui-extra/autocomplete": "^9.0.2",
 		"@smui/button": "^9.0.0",
 		"@smui/card": "^9.0.0",
+		"@smui/circular-progress": "^9.0.2",
 		"@smui/common": "^9.0.0",
 		"@smui/floating-label": "^9.0.0",
 		"@smui/line-ripple": "^9.0.0",
