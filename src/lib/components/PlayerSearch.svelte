@@ -72,7 +72,7 @@
   <Textfield
     label="Search user"
     bind:value={text}
-    class="inner-textfield"
+    class="player-search-inner-textfield"
     style="width: 24rem;"
     helperLine$style="width: 24rem;"
   />
@@ -83,7 +83,11 @@
     z-index: 100;
   }
 
-  :global(.inner-textfield .mdc-line-ripple) {
+  :global(.player-search-inner-textfield .mdc-line-ripple) {
     visibility: hidden;
+  }
+
+  :global(.player-search-inner-textfield .mdc-floating-label) {
+    text-transform: lowercase;
   }
 </style>
