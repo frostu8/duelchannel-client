@@ -5,6 +5,7 @@
 	import { Text } from '@smui/list';
   import CircularProgress from '@smui/circular-progress';
 	import { useQueryClient } from "@tanstack/svelte-query";
+	import RankDisplay from "./RankDisplay.svelte";
 
 	/** @typedef {import('$lib/client/players').Player} Player */
 
@@ -44,6 +45,7 @@
 
 <!-- FUCK YOU!!!! -->
 <Autocomplete
+  class="player-search-input"
   search={searchUsers}
   getOptionLabel={user => user?.displayName}
   bind:value={user}
@@ -59,6 +61,14 @@
       <CircularProgress style="height: 24px; width: 24px;" indeterminate />
     </Text>
   {/snippet}
+  {#snippet match(/** @type {Player} */ user)}
+    {#if user.rank != null}
+      <RankDisplay rank={user.rank} --height="2em" style="margin-right: 8px;"/>
+    {:else}
+      <RankDisplay rank="unranked" --height="2em" style="margin-right: 8px;"/>
+    {/if}
+    <Text>{user.displayName}</Text>
+  {/snippet}
   <Textfield
     label="Search user"
     bind:value={text}
@@ -69,6 +79,10 @@
 </Autocomplete>
 
 <style>
+  :global(.player-search-input .mdc-menu-surface) {
+    z-index: 100;
+  }
+
   :global(.inner-textfield .mdc-line-ripple) {
     visibility: hidden;
   }
