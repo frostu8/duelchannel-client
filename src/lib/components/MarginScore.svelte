@@ -181,6 +181,6 @@
 	img {
 		image-rendering: crisp-edges;
 		height: var(--height, 1rem);
-		margin-left: calc(var(--height, 1rem) * -1 / 2);
+		margin-left: calc(var(--height, 1rem) * -1 / 1.5);
 	}
 </style>

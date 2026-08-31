@@ -227,7 +227,7 @@
 
 		--entry-color: var(--bg-base);
 		--entry-fade-color: var(--bg-base);
-		--entry-text-color: var(--text-secondary);
+		--entry-text-color: var(--text-muted);
 
 		&.victory {
 			--entry-color: #ffa742;
@@ -255,7 +255,7 @@
 		}
 
 		.vs-text {
-			padding-left: 0.5em;
+			padding: 0 0.75em;
 		}
 	}
 
@@ -281,7 +281,7 @@
 		& img {
 			display: block;
 			width: 8em;
-			height: 2.5em;
+			height: 2.8em;
 			object-fit: cover;
 			object-position: center;
 
@@ -312,16 +312,14 @@
 	}
 
 	th {
-		font-weight: normal;
 		font-size: inherit;
 		text-align: right;
 
 		align-self: stretch;
 
 		position: relative;
-		padding: 0.5rem;
+		padding: 1rem;
 		margin-right: 0.5rem;
-		padding-bottom: calc(0.5rem + 2px);
 		transform: translate(0, 1px);
 
 		color: var(--entry-text-color);
@@ -334,7 +332,7 @@
 			left: 100%;
 
 			width: 12px;
-			height: 100%;
+			height: calc(100% - 2px);
 
 			background-color: var(--entry-color);
 			clip-path: polygon(0 0, 100% 100%, 0 100%);

@@ -1,6 +1,6 @@
 <script>
 	//import Counter from './counter/Counter.svelte';
-	import MiniBadgeDisplay from './MiniBadgeDisplay.svelte';
+	import BadgeDisplay from './BadgeDisplay.svelte';
 	import RankDisplay from './RankDisplay.svelte';
 
 	/**
@@ -33,7 +33,7 @@
 			<a class="user-href" href="/player/{player.id}">
 				{player.displayName}
 			</a>
-			<MiniBadgeDisplay --height="1em" flags={player.flags} />
+			<BadgeDisplay --height="1em" flags={player.flags} />
 		</div>
 	</th>
 	<td class="record">

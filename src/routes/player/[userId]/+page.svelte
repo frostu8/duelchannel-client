@@ -2,6 +2,7 @@
 	import { BattleStatus, getMatches } from "$lib/client/matches";
 	import { getSinglePlayer } from "$lib/client/players";
 	import MatchList from "$lib/components/MatchList.svelte";
+	import PlayerProfile from "$lib/components/PlayerProfile.svelte";
 	import { createInfiniteQuery, createQuery } from "@tanstack/svelte-query";
 
 	const { params } = $props();
@@ -31,7 +32,7 @@
   	return userMatchesQuery.data?.pages.flat().filter(match => match.participants.length == 2);
   });
 
-  let list = $state();
+  let sentinelRef = $state();
 	let sentinel = $state();
 	$effect(() => {
 		if (!sentinel) return;
@@ -42,7 +43,7 @@
 				}
 			},
 			{
-				root: list,
+				root: sentinelRef,
 				rootMargin: '600px',
 			},
 		);
@@ -52,8 +53,11 @@
 	});
 </script>
 
-<article>
-	<section class="player-match-list" bind:this={list}>
+<article bind:this={sentinelRef} class="content-root">
+	{#if userQuery.data}
+		<PlayerProfile player={userQuery.data} class="player-profile"/>
+	{/if}
+	<section class="player-match-list">
 		{#if userMatches != null}
 			<MatchList matches={userMatches} user={params.userId} class="player-match-list-inner" />
 			<div class="footer" bind:this={sentinel}>
@@ -68,19 +72,19 @@
 </article>
 
 <style>
-	article {
-		margin: auto;
-		max-width: 1080px;
+	.content-root {
 		height: 100%;
 
 		display: flex;
 		flex-flow: column nowrap;
+
+		overflow-y: scroll;
 	}
 
 	.player-match-list {
+		margin: auto;
+		width: 880px;
 		font-size: 1.2rem;
-		overflow-y: scroll;
-		height: 100%;
 	}
 
 	.footer {
@@ -92,5 +96,10 @@
 
 	:global(.player-match-list-inner) {
 		width: 100%;
+	}
+
+	:global(.content-root .player-profile) {
+		margin: auto;
+		width: 880px;
 	}
 </style>

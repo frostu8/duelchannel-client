@@ -94,8 +94,8 @@
 	});
 </script>
 
-<article>
-	<section class="filter-bar">
+<div class="content-root">
+	<div class="filter-bar">
 		<Autocomplete
 			options={levels ?? []}
 			bind:text={levelQuery}
@@ -114,7 +114,7 @@
 	      {/snippet}
 			</Textfield>
 		</Autocomplete>
-	</section>
+	</div>
 	<section class="match-list" bind:this={list}>
 		{#if matches != null}
 			<MatchList {matches} class="match-list-inner" />
@@ -127,10 +127,10 @@
 			</div>
 		{/if}
 	</section>
-</article>
+</div>
 
 <style>
-	article {
+	.content-root {
 		margin: auto;
 		max-width: 1080px;
 		height: 100%;
@@ -145,7 +145,7 @@
 		align-items: center;
 		gap: 18px;
 
-		margin: 1rem 0 1rem 2.5rem;
+		margin: 1rem 0 1rem 0.778rem;
 	}
 
 	:global(.filter-bar svg) {
