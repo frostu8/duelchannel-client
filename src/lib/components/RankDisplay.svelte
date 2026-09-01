@@ -25,13 +25,13 @@
 		a: { src: rankA, alt: 'A Rank' },
 		b: { src: rankB, alt: 'B Rank' },
 		c: { src: rankC, alt: 'C Rank' },
-		unranked: { src: unranked, alt: 'Unranked' },
+		unranked: { src: unranked, alt: 'Unranked' }
 	};
 
 	let showRank = $derived.by(() => rankMap[rank]);
 </script>
 
-<img src={showRank.src} alt={showRank.alt} title={showRank.alt} draggable="false" style={style} />
+<img src={showRank.src} alt={showRank.alt} title={showRank.alt} draggable="false" {style} />
 
 <style>
 	img {

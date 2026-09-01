@@ -33,7 +33,7 @@
 	{@render btn('Duels', '/duels')}
 	<!-- {@render btn('Servers', '/servers')} -->
 	<div class="search-container">
-		<PlayerSearch bind:text={searchText} onSelect={navigateUser}/>
+		<PlayerSearch bind:text={searchText} onSelect={navigateUser} />
 	</div>
 </nav>
 

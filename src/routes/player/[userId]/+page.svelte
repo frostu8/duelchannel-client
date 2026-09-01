@@ -1,22 +1,21 @@
 <script>
-	import { BattleStatus, getMatches } from "$lib/client/matches";
-	import { getSinglePlayer } from "$lib/client/players";
-	import MatchList from "$lib/components/MatchList.svelte";
-	import PlayerProfile from "$lib/components/PlayerProfile.svelte";
-	import { createInfiniteQuery, createQuery } from "@tanstack/svelte-query";
+	import { BattleStatus, getMatches } from '$lib/client/matches';
+	import { getSinglePlayer } from '$lib/client/players';
+	import MatchList from '$lib/components/MatchList.svelte';
+	import PlayerProfile from '$lib/components/PlayerProfile.svelte';
+	import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query';
 
 	const { params } = $props();
 
-  const userQuery = createQuery(() => ({
-    queryKey: ['user', params.userId],
-    queryFn: () => getSinglePlayer(fetch, params.userId),
-  }));
+	const userQuery = createQuery(() => ({
+		queryKey: ['user', params.userId],
+		queryFn: () => getSinglePlayer(fetch, params.userId)
+	}));
 
-  // Also query the matches the user has played
-  const userMatchesQuery = createInfiniteQuery(() => ({
+	// Also query the matches the user has played
+	const userMatchesQuery = createInfiniteQuery(() => ({
 		queryKey: ['matches', { level: null, user: params.userId }],
-		queryFn: ({ pageParam }) =>
-			getMatches(fetch, { before: pageParam, user: params.userId, status: BattleStatus.Concluded }),
+		queryFn: ({ pageParam }) => getMatches(fetch, { before: pageParam, user: params.userId }),
 		// hopefully the remote isn't in the fucking future
 		initialPageParam: new Date().toISOString(),
 		getNextPageParam: (/** @type {import('$lib/client/matches').Match[]} */ lastPage) => {
@@ -26,26 +25,30 @@
 			}
 			return undefined;
 		}
-  }));
+	}));
 
-  const userMatches = $derived.by(() => {
-  	return userMatchesQuery.data?.pages.flat().filter(match => match.participants.length == 2);
-  });
+	const userMatches = $derived.by(() => {
+		return userMatchesQuery.data?.pages.flat().filter((match) => match.participants.length == 2);
+	});
 
-  let sentinelRef = $state();
+	let sentinelRef = $state();
 	let sentinel = $state();
 	$effect(() => {
 		if (!sentinel) return;
 		const observer = new IntersectionObserver(
 			(entries) => {
-				if (entries[0].isIntersecting && userMatchesQuery.hasNextPage && !userMatchesQuery.isFetchingNextPage) {
+				if (
+					entries[0].isIntersecting &&
+					userMatchesQuery.hasNextPage &&
+					!userMatchesQuery.isFetchingNextPage
+				) {
 					userMatchesQuery.fetchNextPage();
 				}
 			},
 			{
 				root: sentinelRef,
-				rootMargin: '600px',
-			},
+				rootMargin: '600px'
+			}
 		);
 
 		if (sentinel) observer.observe(sentinel);
@@ -55,7 +58,7 @@
 
 <article bind:this={sentinelRef} class="content-root">
 	{#if userQuery.data}
-		<PlayerProfile player={userQuery.data} class="player-profile"/>
+		<PlayerProfile player={userQuery.data} class="player-profile" />
 	{/if}
 	<section class="player-match-list">
 		{#if userMatches != null}

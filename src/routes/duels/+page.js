@@ -10,8 +10,7 @@ export async function load({ fetch, parent, url }) {
 	await queryClient
 		.infiniteQuery({
 			queryKey: ['matches', { level: levelId, user: null }],
-			queryFn: ({ pageParam }) =>
-				getMatches(fetch, { before: pageParam, level: levelId, status: BattleStatus.Concluded }),
+			queryFn: ({ pageParam }) => getMatches(fetch, { before: pageParam, level: levelId }),
 			// hopefully the remote isn't in the fucking future
 			initialPageParam: new Date().toISOString(),
 			getNextPageParam: (/** @type {import('$lib/client/matches').Match[]} */ lastPage) => {

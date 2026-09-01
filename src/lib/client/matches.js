@@ -164,18 +164,18 @@ function normalizeMatch(match) {
  * this timestamp.
  * @param {string | null} [options.level] - The id of the level to filter by.
  * @param {string | null} [options.user] - The id of the user to filter by.
- * @param {BattleStatus | null} [options.status] - Filter by status.
+ * @param {BattleStatus | null} [options.showOngoing]
+ *   Show normally hidden ongoing matches.
  * @returns {Promise<Match[]>} - The matches.
  */
-export async function getMatches(fetch, options = {}) {
-	// Normalize and spit out
-	const query = new URLSearchParams(
-		Object.fromEntries(
-			Object.entries(options)
-				.map(([key, val]) => [key, val?.toString()])
-				.filter(([_, val]) => val != null)
-		)
-	);
+export async function getMatches(fetch, { count, before, level, user, showOngoing } = {}) {
+	const query = new URLSearchParams();
+
+	if (count != null) query.append('count', count.toString());
+	if (before != null) query.append('before', before);
+	if (level != null) query.append('level', level);
+	if (user != null) query.append('user', user);
+	if (showOngoing != null) query.append('show_ongoing', showOngoing.toString());
 
 	const res = await fetch(`/api/v1/matches?${query}`);
 	return /** @type {any[]} */ (await res.json()).map(normalizeMatch);

@@ -20,14 +20,14 @@
 						flag,
 						src: badgeBetaTester,
 						alt: 'Beta Tester',
-						title: 'Played during BETA',
+						title: 'Played during BETA'
 					};
 				case UserFlags.BETA_CHALLENGER:
 					return {
 						flag,
 						src: badgeBetaChallenger,
 						alt: 'Beta Challenger',
-						title: 'Awarded for outstanding merit during BETA',
+						title: 'Awarded for outstanding merit during BETA'
 					};
 				default:
 					return null;

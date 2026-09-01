@@ -66,7 +66,7 @@ export async function getPlayers(fetch, options = {}) {
 				.map(([key, val]) => [key, val?.toString()])
 				.filter(([_, val]) => val != null)
 		)
-	)
+	);
 
 	const res = await fetch(`/api/v1/players?${query}`);
 	return /** @type {any[]} */ (await res.json()).map(normalizePlayer);

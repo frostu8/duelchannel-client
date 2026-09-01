@@ -19,7 +19,9 @@
 		<tr>
 			<th scope="row"></th>
 			<th scope="row" title="Amount of duels won over duels played">Record</th>
-			<th scope="row" colspan="2" title="Duel Rating (0-25000, higher is better) and rank letter">DR</th>
+			<th scope="row" colspan="2" title="Duel Rating (0-25000, higher is better) and rank letter"
+				>DR</th
+			>
 		</tr>
 	</thead>
 	<tbody>

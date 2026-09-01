@@ -33,10 +33,12 @@
 	<td class="record">
 		{wins()}<span class="muted">/{total()} ({winPercentage()})</span>
 	</td>
-	<td class={{
-		["rating-ordinal"]: true,
-		["unrated"]: player.dr == null,
-	}}>
+	<td
+		class={{
+			['rating-ordinal']: true,
+			['unrated']: player.dr == null
+		}}
+	>
 		{#if player.dr != null}
 			<Ordinal ordinal={player.dr} />
 		{:else if matchesLeft != null}

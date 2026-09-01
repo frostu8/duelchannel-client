@@ -4,9 +4,9 @@
  * @enum {number}
  */
 export const BannedStatus = {
-  Blacklist: 0,
-  Whitelist: 1,
-  Suspect: 2,
+	Blacklist: 0,
+	Whitelist: 1,
+	Suspect: 2
 };
 
 /**
@@ -44,13 +44,13 @@ export const BannedStatus = {
  * @returns {MapConfig}
  */
 function normalizeMapConfig(mapConfig) {
-  return {
-    title: mapConfig['title'],
-    status: mapConfig['status'],
-    winCondition: mapConfig['win_condition'],
-    skillRange: mapConfig['skill_range'],
-    note: mapConfig['note'],
-  };
+	return {
+		title: mapConfig['title'],
+		status: mapConfig['status'],
+		winCondition: mapConfig['win_condition'],
+		skillRange: mapConfig['skill_range'],
+		note: mapConfig['note']
+	};
 }
 
 /**
@@ -58,16 +58,16 @@ function normalizeMapConfig(mapConfig) {
  * @returns {Server}
  */
 function normalizeServer(server) {
-  return {
-    id: server['id'],
-    name: server['name'],
-    maps: Object.fromEntries(
-      Object.entries(server['maps']).map(([lumpname, config]) => [
-        lumpname,
-        normalizeMapConfig(config),
-      ]),
-    ),
-  };
+	return {
+		id: server['id'],
+		name: server['name'],
+		maps: Object.fromEntries(
+			Object.entries(server['maps']).map(([lumpname, config]) => [
+				lumpname,
+				normalizeMapConfig(config)
+			])
+		)
+	};
 }
 
 /**
@@ -78,6 +78,6 @@ function normalizeServer(server) {
  * @returns {Promise<Server[]>} - The servers.
  */
 export async function getServers(fetch, count = 50) {
-  const res = await fetch(`/api/v1/servers?count=${count}`);
-  return /** @type {any[]} */ (await res.json()).map(normalizeServer);
+	const res = await fetch(`/api/v1/servers?count=${count}`);
+	return /** @type {any[]} */ (await res.json()).map(normalizeServer);
 }

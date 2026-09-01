@@ -27,8 +27,7 @@
 	async function fetchLevels() {
 		const servers = await getServers(fetch);
 		return servers
-			.map(server => Object.entries(server.maps)
-				.map(([key, value]) => ({ id: key, ...value })))
+			.map((server) => Object.entries(server.maps).map(([key, value]) => ({ id: key, ...value })))
 			.flat()
 			.sort((a, b) => a.title.localeCompare(b.title));
 	}
@@ -44,14 +43,13 @@
 		goto(`?${newParams}`, {
 			keepFocus: true,
 			replaceState: true,
-			noScroll: true,
+			noScroll: true
 		});
 	}
 
 	const query = createInfiniteQuery(() => ({
 		queryKey: ['matches', { level: data.levelId, user: null }],
-		queryFn: ({ pageParam }) =>
-			getMatches(fetch, { before: pageParam, level: data.levelId, status: BattleStatus.Concluded }),
+		queryFn: ({ pageParam }) => getMatches(fetch, { before: pageParam, level: data.levelId }),
 		// hopefully the remote isn't in the fucking future
 		initialPageParam: new Date().toISOString(),
 		getNextPageParam: (/** @type {import('$lib/client/matches').Match[]} */ lastPage) => {
@@ -64,7 +62,7 @@
 	}));
 
 	const matches = $derived.by(() => {
-		return query.data?.pages.flat().filter(match => match.participants.length == 2);
+		return query.data?.pages.flat().filter((match) => match.participants.length == 2);
 	});
 
 	onMount(async () => {
@@ -85,8 +83,8 @@
 			// Pre-fetch 600px before the bottom so it feels seamless
 			{
 				root: list,
-				rootMargin: '600px',
-			},
+				rootMargin: '600px'
+			}
 		);
 
 		if (sentinel) observer.observe(sentinel);
@@ -99,19 +97,20 @@
 		<Autocomplete
 			options={levels ?? []}
 			bind:text={levelQuery}
-			getOptionLabel={option => option ? option.title : ''}
-			onSMUIAutocompleteSelected={ev => navigateLevel(ev.detail)}
+			getOptionLabel={(option) => (option ? option.title : '')}
+			onSMUIAutocompleteSelected={(ev) => navigateLevel(ev.detail)}
 			onSMUIAutocompleteDeselected={() => navigateLevel(null)}
 			style="width: 24rem;"
 		>
-			<Textfield
-				label="Level"
-				bind:value={levelQuery}
-		    style="width: 24rem;"
-			>
+			<Textfield label="Level" bind:value={levelQuery} style="width: 24rem;">
 				{#snippet leadingIcon()}
-	        <SvgIcon size={24} type="mdi" path={mdiCube} class="mdc-text-field__icon mdc-text-field__icon--leading material-icons" />
-	      {/snippet}
+					<SvgIcon
+						size={24}
+						type="mdi"
+						path={mdiCube}
+						class="mdc-text-field__icon mdc-text-field__icon--leading material-icons"
+					/>
+				{/snippet}
 			</Textfield>
 		</Autocomplete>
 	</div>
@@ -170,6 +169,6 @@
 	}
 
 	:global(.filter-bar .mdc-menu-surface) {
-    z-index: 20;
-  }
+		z-index: 20;
+	}
 </style>

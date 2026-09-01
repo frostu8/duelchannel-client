@@ -100,10 +100,10 @@
 
 <tr
 	class={{
-		["match-card"]: true,
-		["opponent-only"]: showOpponentOnly,
-		["victory"]: outcome === "victory",
-		["defeat"]: outcome === "defeat",
+		['match-card']: true,
+		['opponent-only']: showOpponentOnly,
+		['victory']: outcome === 'victory',
+		['defeat']: outcome === 'defeat'
 	}}
 >
 	<th scope="col">
@@ -111,6 +111,8 @@
 			<span>VICTORY {score()}</span>
 		{:else if outcome === 'defeat'}
 			<span>DEFEAT {score()}</span>
+		{:else if outcome === 'no_contest'}
+			<span>NO CONTEST</span>
 		{:else}
 			<span>{score() ? score() : '-'}</span>
 		{/if}
@@ -172,7 +174,9 @@
 	</td>
 	{#if showOpponentOnly}
 		<td class="text ordinal-delta">
-			{#if playerSelf?.drDelta != null}
+			{#if outcome === 'no_contest'}
+				–
+			{:else if playerSelf?.drDelta != null}
 				<OrdinalDelta delta={playerSelf.drDelta} />
 			{/if}
 		</td>

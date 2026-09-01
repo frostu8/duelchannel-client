@@ -1,4 +1,5 @@
 <script>
+	import { BattleStatus } from '$lib/client/matches';
 	import MatchListEntry from './MatchListEntry.svelte';
 
 	/**
@@ -12,11 +13,7 @@
 	 */
 
 	/** @type {MatchListProps} */
-	let {
-		matches,
-		user,
-		class: className,
-	} = $props();
+	let { matches, user, class: className } = $props();
 
 	let showOpponentOnly = $derived(user != null);
 
@@ -29,7 +26,7 @@
 	let compareFn = (a, b) => {
 		if (a.user.id === user) {
 			return -1;
-		} else if (b.user.id === user){
+		} else if (b.user.id === user) {
 			return 1;
 		} else {
 			return 0;
@@ -37,7 +34,7 @@
 	};
 
 	/**
-	 * @typedef {"victory" | "defeat"} MatchOutcome
+	 * @typedef {"victory" | "defeat" | "no_contest"} MatchOutcome
 	 */
 
 	/**
@@ -49,22 +46,28 @@
 	 */
 	const matchesFiltered = () => {
 		if (user != null) {
-			return matches
-				.filter(match => match.participants.some(p => p.user.id === user))
-				// push the player to the top of the list
-				.map(match => ({ ...match, participants: match.participants.sort(compareFn) }))
-				.map(match => {
-					// Add an additional property, "result," to the match.
-					// From the filter above, we know that the first participant is
-					// always the player we are inspecting.
-					const me = match.participants[0];
+			return (
+				matches
+					.filter((match) => match.participants.some((p) => p.user.id === user))
+					// push the player to the top of the list
+					.map((match) => ({ ...match, participants: match.participants.sort(compareFn) }))
+					.map((match) => {
+						// Add an additional property, "outcome," to the match.
+						// From the filter above, we know that the first participant is
+						// always the player we are inspecting.
+						const me = match.participants[0];
 
-					if (me.noContest) {
-						return { ...match, outcome: "defeat" };
-					} else {
-						return { ...match, outcome: "victory" };
-					}
-				});
+						// HACK: we need a better signal from the server to tell us this
+						// game was not scored.
+						if (me.drDelta === 0.0) {
+							return { ...match, outcome: 'no_contest' };
+						} else if (me.noContest) {
+							return { ...match, outcome: 'defeat' };
+						} else {
+							return { ...match, outcome: 'victory' };
+						}
+					})
+			);
 		} else {
 			return matches;
 		}
@@ -75,10 +78,7 @@
 	<thead>
 		<tr>
 			<th scope="row" title="The score the players finished with">Score</th>
-			<th
-				scope="row"
-				colspan={user != null ? 2 : 3}
-			></th>
+			<th scope="row" colspan={user != null ? 2 : 3}></th>
 			<th scope="row"></th>
 			<th scope="row" title="The total duel time">Time</th>
 			<th scope="row" title="The final margin boost of the battle">M.Boost</th>
@@ -90,11 +90,7 @@
 	</thead>
 	<tbody>
 		{#each matchesFiltered() as match (match.id)}
-			<MatchListEntry
-				{match}
-				outcome={match.outcome}
-				{showOpponentOnly}
-			/>
+			<MatchListEntry {match} outcome={match.outcome} {showOpponentOnly} />
 		{/each}
 	</tbody>
 </table>
