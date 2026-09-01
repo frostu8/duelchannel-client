@@ -83,7 +83,7 @@
 
 	.player-match-list {
 		margin: auto;
-		width: 880px;
+		width: 960px;
 		font-size: 1.2rem;
 	}
 
@@ -100,6 +100,6 @@
 
 	:global(.content-root .player-profile) {
 		margin: auto;
-		width: 880px;
+		width: 960px;
 	}
 </style>

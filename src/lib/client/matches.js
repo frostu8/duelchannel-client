@@ -71,6 +71,12 @@ export const BattleStatus = {
  *   `1` = blue / player 2).
  * @property {number} score - The player's score. For duels, this is how
  *   many checkpoints the player crossed.
+ * @property {number | null} [dr] - The player's DR at the time of match
+ *   creation. If the player is provisional, this will be `null`. Absent for
+ *   pre-season matches.
+ * @property {number | null} [drDelta] - The change in the player's DR once the
+ *   match concluded. If the player is proivisonal, this will be null. Absent
+ *   until the match is rated.
  * @property {ItemUsage[]} roulette - The item usage of the player in the
  *   match.
  * @property {import('$lib/client/players').Player} user - The user
@@ -120,6 +126,8 @@ function normalizeParticipant(participant) {
 		name: participant['name'],
 		team: participant['team'],
 		score: participant['score'],
+		dr: participant['dr'],
+		drDelta: participant['dr_delta'],
 		roulette: /** @type {any[]} */ (participant['roulette']).map(normalizeItemUsage),
 		user: normalizePlayer(participant['user']),
 		finishTime: participant['finish_time'],

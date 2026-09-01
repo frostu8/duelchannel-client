@@ -1,5 +1,6 @@
 <script>
 	import BadgeDisplay from './BadgeDisplay.svelte';
+	import Ordinal from './Ordinal.svelte';
 	import RankDisplay from './RankDisplay.svelte';
 
   /**
@@ -11,12 +12,6 @@
 
   /** @type {PlayerProfileProps} */
   const { player, class: className } = $props();
-
-	let drDisplay = () => (player.dr != null ? Math.floor(player.dr).toLocaleString() : null);
-	let drDisplaySub = () =>
-		player.dr != null
-			? '.' + ((player.dr - Math.trunc(player.dr)) * 100).toFixed(0).padStart(2, '0')
-			: null;
 </script>
 
 <section
@@ -28,11 +23,10 @@
     {/if}
     <h1><a href="/player/{player.id}">{player.displayName}</a></h1>
   </div>
-  <div class="rating-ordinal">
-    {#if drDisplay() != null}
-      <span>{drDisplay()}</span>
-      <sub>{drDisplaySub()}</sub>
-      DR
+  <div class="dr">
+    {#if player.dr != null}
+      <Ordinal ordinal={player.dr} />
+      <span class="suffix">DR</span>
     {/if}
   </div>
   <section class="basic-stats">
@@ -89,7 +83,7 @@
     }
   }
 
-  .rating-ordinal {
+  .dr {
     display: flex;
     flex-flow: row nowrap;
     align-items: baseline;
@@ -98,16 +92,8 @@
     margin-bottom: 1rem;
     color: var(--text-muted);
 
-    & > span {
-      color: var(--text-primary);
-      font-weight: bold;
-    }
-
-    & > sub {
-      color: var(--text-secondary);
-      font-weight: bold;
-
-      margin-right: 16px;
+    & .suffix {
+      margin: 0 1rem;
     }
   }
 

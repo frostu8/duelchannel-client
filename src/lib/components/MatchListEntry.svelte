@@ -1,6 +1,7 @@
 <script>
 	import { asset } from '$app/paths';
 	import MarginScore from './MarginScore.svelte';
+	import OrdinalDelta from './OrdinalDelta.svelte';
 	import RankDisplay from './RankDisplay.svelte';
 
 	import SvgIcon from '@jamescoyle/svelte-icon';
@@ -51,7 +52,7 @@
 		return Math.floor((tics % TICRATE) * (100 / TICRATE));
 	}
 
-	let playerLeft = $derived.by(() => {
+	let playerSelf = $derived.by(() => {
 		if (match.participants.length == 2) {
 			let [playerLeft, _] = match.participants;
 			return playerLeft;
@@ -59,7 +60,7 @@
 			return null;
 		}
 	});
-	let playerRight = $derived.by(() => {
+	let playerOpponent = $derived.by(() => {
 		if (match.participants.length == 2) {
 			let [_, playerRight] = match.participants;
 			return playerRight;
@@ -69,8 +70,8 @@
 	});
 
 	let score = () => {
-		if (!playerLeft?.score && !playerRight?.score) return null;
-		return `${playerLeft?.score} - ${playerRight?.score}`;
+		if (!playerSelf?.score && !playerOpponent?.score) return null;
+		return `${playerSelf?.score} - ${playerOpponent?.score}`;
 	};
 
 	let finishTime = () => {
@@ -139,14 +140,14 @@
 			</div>
 		</td>
 	{/snippet}
-	{#if playerRight != null && playerLeft != null}
+	{#if playerOpponent != null && playerSelf != null}
 		<!-- Note, we can skip the first player if we're already scoped
 			to a user -->
 		{#if !showOpponentOnly}
-			{@render playerCard(playerLeft)}
+			{@render playerCard(playerSelf)}
 		{/if}
 		<td class="vs-text">vs</td>
-		{@render playerCard(playerRight, !showOpponentOnly)}
+		{@render playerCard(playerOpponent, !showOpponentOnly)}
 	{/if}
 	<td class="map-col">
 		<a href="/duels/{match.id}">
@@ -169,6 +170,13 @@
 			<MarginScore margin={match.marginScore} --height="2em" />
 		{/if}
 	</td>
+	{#if showOpponentOnly}
+		<td class="text ordinal-delta">
+			{#if playerSelf?.drDelta != null}
+				<OrdinalDelta delta={playerSelf.drDelta} />
+			{/if}
+		</td>
+	{/if}
 	<td class="text">
 		<div class="match-toolbar">
 			{#if match.replayUrl != null}
@@ -273,6 +281,10 @@
 
 	.finish-time {
 		color: var(--text-muted);
+	}
+
+	.ordinal-delta {
+		color: var(--text-secondary);
 	}
 
 	.map-col {

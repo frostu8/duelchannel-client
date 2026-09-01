@@ -18,6 +18,8 @@
 		class: className,
 	} = $props();
 
+	let showOpponentOnly = $derived(user != null);
+
 	let tableClass = () => [className].flat().concat(['match-list']);
 
 	/**
@@ -80,6 +82,9 @@
 			<th scope="row"></th>
 			<th scope="row" title="The total duel time">Time</th>
 			<th scope="row" title="The final margin boost of the battle">M.Boost</th>
+			{#if showOpponentOnly}
+				<th scope="row" title="DR gain/loss">Gain/Loss</th>
+			{/if}
 			<th scope="row"></th>
 		</tr>
 	</thead>
@@ -88,7 +93,7 @@
 			<MatchListEntry
 				{match}
 				outcome={match.outcome}
-				showOpponentOnly={user != null}
+				{showOpponentOnly}
 			/>
 		{/each}
 	</tbody>
@@ -108,6 +113,8 @@
 		background-color: var(--bg-base);
 		color: var(--text-secondary);
 		padding: 12px;
+
+		font-size: 1rem;
 		font-weight: normal;
 
 		&:first-child {

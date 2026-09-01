@@ -1,7 +1,7 @@
 <script>
-	//import Counter from './counter/Counter.svelte';
 	import BadgeDisplay from './BadgeDisplay.svelte';
 	import RankDisplay from './RankDisplay.svelte';
+	import Ordinal from './Ordinal.svelte';
 
 	/**
 	 * @typedef {Object} Props
@@ -11,12 +11,6 @@
 
 	/** @type {Props} */
 	let { player } = $props();
-
-	let drDisplay = () => (player.dr != null ? Math.floor(player.dr).toLocaleString() : null);
-	let drDisplaySub = () =>
-		player.dr != null
-			? '.' + ((player.dr - Math.trunc(player.dr)) * 100).toFixed(0).padStart(2, '0')
-			: null;
 
 	let wins = () => Math.floor(player.matchesPlayed * player.winRatio).toLocaleString();
 	let total = () => player.matchesPlayed.toLocaleString();
@@ -39,21 +33,17 @@
 	<td class="record">
 		{wins()}<span class="muted">/{total()} ({winPercentage()})</span>
 	</td>
-	<td class="rating-ordinal-display">
-		<div class={{
-			["rating-ordinal"]: true,
-			["unrated"]: player.dr == null,
-		}}>
-			{#if drDisplay() != null}
-				{drDisplay()}
-				<sub>{drDisplaySub()}</sub>
-			{:else if matchesLeft != null}
-				Unrated
-				<sub>({matchesLeft}/10)</sub>
-			{:else}
-				Unrated
-			{/if}
-		</div>
+	<td class={{
+		["rating-ordinal"]: true,
+		["unrated"]: player.dr == null,
+	}}>
+		{#if player.dr != null}
+			<Ordinal ordinal={player.dr} />
+		{:else if matchesLeft != null}
+			Unrated <sub>({matchesLeft}/10)</sub>
+		{:else}
+			Unrated
+		{/if}
 	</td>
 	<td class="rank">
 		{#if player.rank != null}
@@ -88,10 +78,6 @@
 		text-align: center;
 		padding: 0.75rem;
 
-		&.rating-ordinal-display {
-			padding: 0.75rem 0 0.75rem 0.75rem;
-		}
-
 		&:first-child {
 			text-align: left;
 		}
@@ -99,18 +85,10 @@
 		&:last-child {
 			text-align: right;
 		}
-	}
 
-	.rating-ordinal {
-		display: flex;
-		flex-flow: row nowrap;
-		align-items: center;
-		justify-content: right;
-		font-weight: bold;
-		text-transform: uppercase;
-
-		sub {
-			color: var(--text-secondary);
+		&.rating-ordinal {
+			padding: 0.75rem 0 0.75rem 0.75rem;
+			text-align: right;
 		}
 	}
 
@@ -118,7 +96,10 @@
 		color: var(--text-secondary);
 	}
 
-	.muted,
+	.muted {
+		color: var(--text-muted);
+	}
+
 	.unrated {
 		color: var(--text-muted);
 
