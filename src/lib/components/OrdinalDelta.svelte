@@ -22,7 +22,10 @@
 			return `±${scoped}`;
 		}
 	};
-	const ordinalDeltaSub = () => Math.abs(Math.floor((delta - Math.trunc(delta)) * 100)).toFixed(0);
+	const ordinalDeltaSub = () =>
+		Math.abs(Math.floor((delta - Math.trunc(delta)) * 100))
+			.toFixed(0)
+			.padStart(2, '0');
 </script>
 
 <span class="ordinal">
