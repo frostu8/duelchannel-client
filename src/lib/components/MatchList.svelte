@@ -57,9 +57,7 @@
 						// always the player we are inspecting.
 						const me = match.participants[0];
 
-						// HACK: we need a better signal from the server to tell us this
-						// game was not scored.
-						if (me.drDelta === 0.0) {
+						if (!match.rated) {
 							return { ...match, outcome: 'no_contest' };
 						} else if (me.noContest) {
 							return { ...match, outcome: 'defeat' };

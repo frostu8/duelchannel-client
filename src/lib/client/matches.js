@@ -55,6 +55,8 @@ export const BattleStatus = {
  * @property {number} marginScore - The margin score of the match. This is
  *   the number of margin boosts the match had. This is typically zero, and
  *   goes up steadily after 3 minutes of playtime.
+ * @property {boolean} rated - `true` if the match contributes to the user's
+ *   rating.
  * @property {string} startedAt - When the match started, as an ISO 8601
  *   date-time string.
  * @property {Participant[]} participants - The participants.
@@ -147,6 +149,7 @@ function normalizeMatch(match) {
 		levelId: match['level_id'],
 		levelName: match['level_name'],
 		status: match['status'],
+		rated: match['rated'],
 		marginScore: match['margin_score'],
 		startedAt: match['started_at'],
 		participants: /** @type {any[]} */ (match['participants']).map(normalizeParticipant),
