@@ -107,15 +107,17 @@
 	}}
 >
 	<th scope="col">
-		{#if outcome === 'victory'}
-			<span>VICTORY {score()}</span>
-		{:else if outcome === 'defeat'}
-			<span>DEFEAT {score()}</span>
-		{:else if outcome === 'no_contest'}
-			<span>NO CONTEST</span>
-		{:else}
-			<span>{score() ? score() : '-'}</span>
-		{/if}
+		<a href="/duels/{match.id}">
+			{#if outcome === 'victory'}
+				<span>VICTORY {score()}</span>
+			{:else if outcome === 'defeat'}
+				<span>DEFEAT {score()}</span>
+			{:else if outcome === 'no_contest'}
+				<span>NO CONTEST</span>
+			{:else}
+				<span>{score() ? score() : '-'}</span>
+			{/if}
+		</a>
 	</th>
 	{#snippet playerCard(
 		/** @type {import('$lib/client/matches').Participant} */ player,
@@ -178,6 +180,8 @@
 				–
 			{:else if playerSelf?.drDelta != null}
 				<OrdinalDelta delta={playerSelf.drDelta} />
+			{:else}
+				–
 			{/if}
 		</td>
 	{/if}
@@ -250,6 +254,7 @@
 				font-weight: bold;
 			}
 		}
+
 		&.defeat {
 			--entry-color: #8b8bff;
 			--entry-fade-color: #6445d6;
@@ -340,6 +345,11 @@
 
 		color: var(--entry-text-color);
 		background: linear-gradient(to right, var(--entry-fade-color) 0%, var(--entry-color) 80%);
+
+		& a {
+			color: var(--entry-text-color);
+			text-decoration: none;
+		}
 
 		&::after {
 			content: '';
