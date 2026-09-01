@@ -158,6 +158,18 @@ function normalizeMatch(match) {
 }
 
 /**
+ * Fetches a single match from the API by id.
+ *
+ * @param {import('@sveltejs/kit').LoadEvent['fetch']} fetch - A fetch function.
+ * @param {string} id - The id of the match.
+ * @returns {Promise<Match>} - The matches.
+ */
+export async function getSingleMatch(fetch, id) {
+	const res = await fetch(`/api/v1/matches/${encodeURIComponent(id)}`);
+	return normalizeMatch(await res.json());
+}
+
+/**
  * Gets the list of matches from the API.
  *
  * @param {import('@sveltejs/kit').LoadEvent['fetch']} fetch - A fetch function.

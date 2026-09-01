@@ -24,9 +24,12 @@
 	import mb22 from '$lib/assets/margin-boost/DUELMB22.png';
 	import mb23 from '$lib/assets/margin-boost/DUELMB23.png';
 
+	import clsx from 'clsx';
+
 	/**
 	 * @typedef {Object} MarginScoreProps
 	 * @property {number} margin - The margin score to display.
+	 * @property {import('clsx').ClassValue} [class]
 	 */
 
 	// Hey KKD! I want to leave a note here to say that I appreciate you
@@ -34,7 +37,7 @@
 	// less bad time -frostu8 2026-08-29
 
 	/** @type {MarginScoreProps} */
-	let { margin: rawMargin } = $props();
+	let { margin: rawMargin, class: className } = $props();
 
 	/**
 	 * Mulberry32 random number generator.
@@ -159,7 +162,7 @@
 	};
 </script>
 
-<div class="margin-score">
+<div class={clsx("margin-score", className)}>
 	{#each symbols() as symbol (symbol.index)}
 		<img
 			src={symbol.src}
@@ -175,6 +178,7 @@
 		display: flex;
 		flex-flow: row nowrap;
 		justify-content: center;
+		align-items: center;
 		margin-left: 24px;
 	}
 

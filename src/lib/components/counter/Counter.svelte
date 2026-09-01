@@ -1,15 +1,15 @@
 <script>
-	//import CounterDigit from './CounterDigit.svelte';
 	import CounterDigitSmall from './CounterDigitSmall.svelte';
+	import clsx from 'clsx';
+
+	import timesSymbol from '$lib/assets/numbers-small/times.png';
 
 	/**
 	 * @typedef {Object} CounterProps
-	 * @property {!number} number - The number to display on the counter.
+	 * @property {number} number - The number to display on the counter.
 	 * @property {number} [padding=0] - How much padding to apply to the display.
-	 * @property {string} [height="1.5em"] - The height of the counter.
-	 * @property {boolean} [small=false] - If small digits should be used to draw the
-	 * counter.
-	 * @property {string | string[]} [class] - Class names to apply.
+	 * @property {string} [height="1rem"] - The height of the counter.
+	 * @property {import('clsx').ClassValue} [class] - Class names to apply.
 	 * @property {import('svelte').Snippet} [children] - The component's children.
 	 */
 
@@ -17,8 +17,7 @@
 	let {
 		number,
 		padding = 0,
-		height = '1.5em',
-		small = false,
+		height = '1rem',
 		class: className,
 		children
 	} = $props();
@@ -36,21 +35,15 @@
 	});
 
 	let digits = $derived([...Array(Math.max(digitCount, padding)).keys()].reverse());
-	let containerClass = () => className ?? [];
 </script>
 
-<div class={['counter', ...containerClass()]}>
-	{#if small}
-		{#each digits as digitNum (digitNum)}
-			<CounterDigitSmall {number} {digitNum} --height={height} />
-		{/each}
-	{:else}
-		<!--
-  {#each digits as digitNum}
-    <CounterDigit {number} {digitNum} --height={height} />
-  {/each}
-  -->
-	{/if}
+<div class={clsx('counter', className)} style={`--height: ${height}`}>
+	<div class="digit-container">
+		<img src={timesSymbol} alt="x" draggable="false" />
+	</div>
+	{#each digits as digitNum (digitNum)}
+		<CounterDigitSmall {number} {digitNum} --height={height} />
+	{/each}
 	{@render children?.()}
 </div>
 
@@ -61,5 +54,17 @@
 		flex-flow: row nowrap;
 		justify-content: center;
 		align-items: center;
+
+		pointer-events: none;
+	}
+
+	.digit-container {
+		width: calc(var(--height, 1rem) * 4 / 9);
+		height: var(--height, 1rem);
+
+		img {
+			image-rendering: crisp-edges;
+			height: 100%;
+		}
 	}
 </style>

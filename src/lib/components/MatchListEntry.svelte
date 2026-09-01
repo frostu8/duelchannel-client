@@ -1,6 +1,7 @@
 <script>
 	import { asset } from '$app/paths';
 	import MarginScore from './MarginScore.svelte';
+	import MatchToolbar from './MatchToolbar.svelte';
 	import OrdinalDelta from './OrdinalDelta.svelte';
 	import RankDisplay from './RankDisplay.svelte';
 
@@ -127,7 +128,7 @@
 			<div
 				class={{
 					['player-card']: true,
-					['right']: right
+					['float-right']: right
 				}}
 			>
 				{#if player.user.rank != null && !right}
@@ -186,17 +187,7 @@
 		</td>
 	{/if}
 	<td class="text">
-		<div class="match-toolbar">
-			{#if match.replayUrl != null}
-				<a class="replay-btn" href={match.replayUrl}>
-					<SvgIcon type="mdi" path={mdiDownload}></SvgIcon>
-				</a>
-			{:else}
-				<span title="The replay was lost or otherwise expired.">
-					<SvgIcon type="mdi" path={mdiDownloadOffOutline}></SvgIcon>
-				</span>
-			{/if}
-		</div>
+		<MatchToolbar {match}/>
 	</td>
 </tr>
 
@@ -209,7 +200,7 @@
 		gap: 8px;
 		align-items: center;
 
-		&.right {
+		&.float-right {
 			justify-content: flex-end;
 		}
 
@@ -316,12 +307,6 @@
 			);
 			mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
 		}
-	}
-
-	.match-toolbar {
-		display: flex;
-		flex-flow: row nowrap;
-		justify-content: center;
 	}
 
 	.replay-btn {

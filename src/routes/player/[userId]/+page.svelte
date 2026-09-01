@@ -1,5 +1,5 @@
 <script>
-	import { BattleStatus, getMatches } from '$lib/client/matches';
+	import { getMatches } from '$lib/client/matches';
 	import { getSinglePlayer } from '$lib/client/players';
 	import MatchList from '$lib/components/MatchList.svelte';
 	import PlayerProfile from '$lib/components/PlayerProfile.svelte';
@@ -56,9 +56,12 @@
 	});
 </script>
 
-<article bind:this={sentinelRef} class="content-root">
+<article bind:this={sentinelRef} class="player-summary">
 	{#if userQuery.data}
-		<PlayerProfile player={userQuery.data} class="player-profile" />
+		<PlayerProfile
+			player={userQuery.data}
+			style="margin: auto; width: 960px;"
+		/>
 	{/if}
 	<section class="player-match-list">
 		{#if userMatches != null}
@@ -75,13 +78,17 @@
 </article>
 
 <style>
-	.content-root {
+	.player-summary {
 		height: 100%;
 
 		display: flex;
 		flex-flow: column nowrap;
 
 		overflow-y: scroll;
+
+		:global(& .basic-stats) {
+			width: 360px;
+		}
 	}
 
 	.player-match-list {
@@ -99,10 +106,5 @@
 
 	:global(.player-match-list-inner) {
 		width: 100%;
-	}
-
-	:global(.content-root .player-profile) {
-		margin: auto;
-		width: 960px;
 	}
 </style>

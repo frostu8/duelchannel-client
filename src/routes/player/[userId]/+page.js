@@ -1,4 +1,4 @@
-import { BattleStatus, getMatches } from '$lib/client/matches';
+import { getMatches } from '$lib/client/matches';
 import { getSinglePlayer } from '$lib/client/players';
 import { noop } from '@tanstack/svelte-query';
 

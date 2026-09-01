@@ -58,7 +58,7 @@
 	});
 </script>
 
-<div class="dc-digit-container">
+<div class="digit-container">
 	<img src={digit.src} alt={digit.alt} class={{ ghosted: digit.ghosted }} draggable="false" />
 </div>
 
@@ -67,9 +67,9 @@
 		opacity: 30%;
 	}
 
-	.dc-digit-container {
-		width: calc(var(--height, 1em) * 4 / 9);
-		height: var(--height, 1em);
+	.digit-container {
+		width: calc(var(--height, 1rem) * 4 / 9);
+		height: var(--height, 1rem);
 
 		img {
 			image-rendering: crisp-edges;

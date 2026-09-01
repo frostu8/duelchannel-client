@@ -1,71 +1,59 @@
 <script>
 	import BadgeDisplay from './BadgeDisplay.svelte';
-	import Ordinal from './Ordinal.svelte';
-	import RankDisplay from './RankDisplay.svelte';
+	import KeyValue from './KeyValue.svelte';
+	import PlayerNameplate from './profile/PlayerNameplate.svelte';
+	import clsx from 'clsx';
+	import PlayerOrdinal from './profile/PlayerOrdinal.svelte';
 
 	/**
 	 * @typedef {Object} PlayerProfileProps
 	 * @property {import('$lib/client/players').Player} player
 	 * The player to render.
-	 * @property {string | string[]} [class]
+	 * @property {boolean} [showBadges=true]
+	 * Whether or not to show the player's badges.
+	 * @property {boolean} [showHeader=true]
+	 * Whether or not to show the profile headers.
+	 * @property {import('clsx').ClassValue} [class]
+	 * @property {string} [style]
+	 * @property {import('svelte').Snippet} [children]
 	 */
 
 	/** @type {PlayerProfileProps} */
-	const { player, class: className } = $props();
+	const {
+		player,
+		showBadges = true,
+		showHeader = true,
+		class: className,
+		style,
+		children,
+	} = $props();
 </script>
 
-<section class={['player-profile', className].flat()}>
-	<div class="header">
-		{#if player.rank != null}
-			<RankDisplay rank={player.rank} --height="2.5em" />
-		{/if}
-		<h1><a href="/player/{player.id}">{player.displayName}</a></h1>
-	</div>
-	<div class="dr">
+<section {style} class={clsx('player-profile', className)}>
+	{#if showHeader}
+		<PlayerNameplate {...player} />
 		{#if player.dr != null}
-			<Ordinal ordinal={player.dr} />
-			<span class="suffix">DR</span>
+			<PlayerOrdinal dr={player.dr} />
 		{/if}
-	</div>
+	{/if}
 	<section class="basic-stats">
-		<div class="badges">
-			<h4>Badges</h4>
-			<BadgeDisplay flags={player.flags} --height="2rem" />
-		</div>
-		<div>
+		{@render children?.()}
+		{#if showBadges}
+			<div class="card badges">
+				<h4>Badges</h4>
+				<BadgeDisplay flags={player.flags} --height="2rem" />
+			</div>
+		{/if}
+		<div class="card">
 			<h4>Duel Stats</h4>
-			<div class="key-value">
-				<p>Duels played</p>
-				<div></div>
-				<h1>{player.matchesPlayed}</h1>
-			</div>
-			<div class="key-value">
-				<p>Duels won</p>
-				<div></div>
-				<h1>{Math.floor(player.matchesPlayed * player.winRatio)}</h1>
-			</div>
-			<div class="key-value">
-				<p>Win rate</p>
-				<div></div>
-				<h1>{(player.winRatio * 100).toFixed(2)}%</h1>
-			</div>
+			<KeyValue key="Duels played" value={player.matchesPlayed}/>
+			<KeyValue key="Duels won" value={Math.floor(player.matchesPlayed * player.winRatio)}/>
+			<KeyValue key="Win rate" value={`${(player.winRatio * 100).toFixed(2)}%`}/>
 		</div>
 	</section>
 </section>
 
 <style>
-	.player-profile {
-		& a {
-			color: var(--text-secondary);
-			font-weight: bold;
-			text-decoration: none;
-
-			&:hover {
-				color: white;
-			}
-		}
-	}
-
 	.header {
 		display: flex;
 		flex-flow: row nowrap;
@@ -75,24 +63,6 @@
 		margin: 1rem 0 0.5rem 0;
 
 		font-size: 1.5rem;
-
-		& > h1 {
-			text-transform: uppercase;
-		}
-	}
-
-	.dr {
-		display: flex;
-		flex-flow: row nowrap;
-		align-items: baseline;
-		font-size: 1.8rem;
-
-		margin-bottom: 1rem;
-		color: var(--text-muted);
-
-		& .suffix {
-			margin: 0 1rem;
-		}
 	}
 
 	.basic-stats {
@@ -103,42 +73,21 @@
 
 		color: var(--text-primary);
 
-		width: 360px;
-
-		& > div {
+		:global(& .card) {
 			padding: 1rem;
 			background-color: var(--bg-secondary);
-
 			border-bottom: 4px solid var(--bg-primary);
 		}
 
-		h4 {
+		:global(& .card h4) {
 			color: var(--text-muted);
 			text-align: center;
 			text-transform: uppercase;
-		}
-	}
+			margin-top: 0.6rem;
 
-	.key-value {
-		display: flex;
-		flex-flow: row nowrap;
-		justify-content: flex-end;
-		align-items: center;
-		margin-top: 0.1em;
-
-		& > p {
-			color: var(--text-secondary);
-			text-transform: uppercase;
-		}
-		& > h1 {
-			font-size: inherit;
-			font-weight: bold;
-		}
-		& > div {
-			/* Styling for divider */
-			border-bottom: 2px dotted var(--text-muted);
-			margin: 0 0.5em;
-			flex: 1 0 auto;
+			:global(&:first-child) {
+				margin: 0;
+			}
 		}
 	}
 </style>
