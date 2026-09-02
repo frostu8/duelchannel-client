@@ -1,29 +1,28 @@
-<script>
-	import { BattleStatus } from '$lib/client/matches';
+<script lang="ts">
+	import { type Match, type Participant } from '$lib/client/matches';
 	import MatchListEntry from './MatchListEntry.svelte';
 
-	/**
-	 * @typedef {Object} MatchListProps
-	 * @property {import('$lib/client/matches').Match[]} matches
-	 * A list of matches to display.
-	 * @property {string | null} [user]
-	 * The user to filter by. This will also arrange participant lists so that
-	 * the user comes first in the list.
-	 * @property {string | string[]} class
-	 */
+	type MatchOutcome = 'victory' | 'defeat' | 'no_contest';
+	type MatchWithOutcome = Match & { outcome?: MatchOutcome };
 
-	/** @type {MatchListProps} */
-	let { matches, user, class: className } = $props();
+	interface Props {
+		/** A list of matches to display. */
+		matches: Match[];
+		/**
+		 * The user to filter by. This will also arrange participant lists so
+		 * that the user comes first in the list.
+		 */
+		user?: string | null;
+		class?: string | string[];
+	}
+
+	let { matches, user, class: className }: Props = $props();
 
 	let showOpponentOnly = $derived(user != null);
 
 	let tableClass = () => [className].flat().concat(['match-list']);
 
-	/**
-	 * @param {import('$lib/client/matches').Participant} a
-	 * @param {import('$lib/client/matches').Participant} b
-	 */
-	let compareFn = (a, b) => {
+	let compareFn = (a: Participant, b: Participant) => {
 		if (a.user.id === user) {
 			return -1;
 		} else if (b.user.id === user) {
@@ -33,18 +32,7 @@
 		}
 	};
 
-	/**
-	 * @typedef {"victory" | "defeat" | "no_contest"} MatchOutcome
-	 */
-
-	/**
-	 * @typedef {import('$lib/client/matches').Match & { outcome?: MatchOutcome }} MatchWithOutcome
-	 */
-
-	/**
-	 * @returns {MatchWithOutcome[]}
-	 */
-	const matchesFiltered = () => {
+	const matchesFiltered = (): MatchWithOutcome[] => {
 		if (user != null) {
 			return (
 				matches

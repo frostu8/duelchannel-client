@@ -1,32 +1,32 @@
-<script>
+<script lang="ts">
 	import BadgeDisplay from './BadgeDisplay.svelte';
 	import KeyValue from './KeyValue.svelte';
 	import PlayerNameplate from './profile/PlayerNameplate.svelte';
-	import clsx from 'clsx';
+	import clsx, { type ClassValue } from 'clsx';
 	import PlayerOrdinal from './profile/PlayerOrdinal.svelte';
+	import type { Player } from '$lib/client/players';
+	import type { Snippet } from 'svelte';
 
-	/**
-	 * @typedef {Object} PlayerProfileProps
-	 * @property {import('$lib/client/players').Player} player
-	 * The player to render.
-	 * @property {boolean} [showBadges=true]
-	 * Whether or not to show the player's badges.
-	 * @property {boolean} [showHeader=true]
-	 * Whether or not to show the profile headers.
-	 * @property {import('clsx').ClassValue} [class]
-	 * @property {string} [style]
-	 * @property {import('svelte').Snippet} [children]
-	 */
+	interface Props {
+		/** The player to render. */
+		player: Player;
+		/** Whether or not to show the player's badges. */
+		showBadges?: boolean;
+		/** Whether or not to show the profile headers. */
+		showHeader?: boolean;
+		class?: ClassValue;
+		style?: string;
+		children?: Snippet;
+	}
 
-	/** @type {PlayerProfileProps} */
 	const {
 		player,
 		showBadges = true,
 		showHeader = true,
 		class: className,
 		style,
-		children,
-	} = $props();
+		children
+	}: Props = $props();
 </script>
 
 <section {style} class={clsx('player-profile', className)}>
@@ -46,9 +46,9 @@
 		{/if}
 		<div class="card">
 			<h4>Duel Stats</h4>
-			<KeyValue key="Duels played" value={player.matchesPlayed}/>
-			<KeyValue key="Duels won" value={Math.floor(player.matchesPlayed * player.winRatio)}/>
-			<KeyValue key="Win rate" value={`${(player.winRatio * 100).toFixed(2)}%`}/>
+			<KeyValue key="Duels played" value={player.matchesPlayed} />
+			<KeyValue key="Duels won" value={Math.floor(player.matchesPlayed * player.winRatio)} />
+			<KeyValue key="Win rate" value={`${(player.winRatio * 100).toFixed(2)}%`} />
 		</div>
 	</section>
 </section>

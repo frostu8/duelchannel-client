@@ -1,26 +1,24 @@
-<script>
+<script lang="ts">
 	import CounterDigitSmall from './CounterDigitSmall.svelte';
-	import clsx from 'clsx';
+	import clsx, { type ClassValue } from 'clsx';
+	import type { Snippet } from 'svelte';
 
 	import timesSymbol from '$lib/assets/numbers-small/times.png';
 
-	/**
-	 * @typedef {Object} CounterProps
-	 * @property {number} number - The number to display on the counter.
-	 * @property {number} [padding=0] - How much padding to apply to the display.
-	 * @property {string} [height="1rem"] - The height of the counter.
-	 * @property {import('clsx').ClassValue} [class] - Class names to apply.
-	 * @property {import('svelte').Snippet} [children] - The component's children.
-	 */
+	interface Props {
+		/** The number to display on the counter. */
+		number: number;
+		/** How much padding to apply to the display. */
+		padding?: number;
+		/** The height of the counter. */
+		height?: string;
+		/** Class names to apply. */
+		class?: ClassValue;
+		/** The component's children. */
+		children?: Snippet;
+	}
 
-	/** @type {CounterProps} */
-	let {
-		number,
-		padding = 0,
-		height = '1rem',
-		class: className,
-		children
-	} = $props();
+	let { number, padding = 0, height = '1rem', class: className, children }: Props = $props();
 
 	let digitCount = $derived.by(() => {
 		let ix = 0;

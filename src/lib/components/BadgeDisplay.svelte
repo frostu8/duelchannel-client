@@ -1,16 +1,15 @@
-<script>
-	import UserFlags, { all } from '$lib/client/UserFlags.js';
+<script lang="ts">
+	import UserFlags, { all } from '$lib/client/UserFlags';
 
 	import badgeBetaTester from '$lib/assets/badges/beta_tester.png';
 	import badgeBetaChallenger from '$lib/assets/badges/beta_challenger.png';
 
-	/**
-	 * @typedef {Object} BadgeDisplayProps
-	 * @property {number} flags - The flags to display.
-	 */
+	interface Props {
+		/** The flags to display. */
+		flags: number;
+	}
 
-	/** @type {BadgeDisplayProps} */
-	let { flags } = $props();
+	let { flags }: Props = $props();
 
 	let allBadges = all()
 		.map((flag) => {

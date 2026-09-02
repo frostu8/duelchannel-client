@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+	import type { Rank } from '$lib/client/players';
+
 	import rankX from '$lib/assets/ranks/x.png';
 	import rankSS from '$lib/assets/ranks/ss.png';
 	import rankS from '$lib/assets/ranks/s.png';
@@ -8,16 +10,16 @@
 	import rankC from '$lib/assets/ranks/c.png';
 	import unranked from '$lib/assets/ranks/unranked.png';
 
-	/**
-	 * @typedef {Object} RankDisplayProps
-	 * @property {import('$lib/client/players').Rank | "unranked"} rank - The rank to show.
-	 * @property {string} [style] - Additional styles.
-	 */
+	interface Props {
+		/** The rank to show. */
+		rank: Rank | 'unranked';
+		/** Additional styles. */
+		style?: string;
+	}
 
-	/** @type {RankDisplayProps} */
-	let { rank, style } = $props();
+	let { rank, style }: Props = $props();
 
-	let rankMap = {
+	const rankMap: Record<Rank | 'unranked', { src: string; alt: string }> = {
 		x: { src: rankX, alt: 'X Rank' },
 		ss: { src: rankSS, alt: 'SS Rank' },
 		s: { src: rankS, alt: 'S Rank' },

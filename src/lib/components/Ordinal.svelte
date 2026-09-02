@@ -1,12 +1,10 @@
-<script>
-	/**
-	 * @typedef {object} OrdinalProps
-	 * @property {number} ordinal
-	 * The ordinal to display
-	 */
+<script lang="ts">
+	interface Props {
+		/** The ordinal to display. */
+		ordinal: number;
+	}
 
-	/** @type {OrdinalProps} */
-	let { ordinal } = $props();
+	let { ordinal }: Props = $props();
 
 	let ordinalDisplay = () => (ordinal != null ? Math.floor(ordinal).toLocaleString() : null);
 	let ordinalDisplaySub = () =>

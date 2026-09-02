@@ -1,18 +1,16 @@
-<script>
-	import clsx from 'clsx';
+<script lang="ts">
+	import clsx, { type ClassValue } from 'clsx';
 	import Ordinal from '../Ordinal.svelte';
 
-	/**
-	 * @typedef {object} PlayerOrdinalProps
-	 * @property {number} dr
-	 * @property {import('clsx').ClassValue} [class]
-	 */
+	interface Props {
+		dr: number;
+		class?: ClassValue;
+	}
 
-	/** @type {PlayerOrdinalProps} */
-	const { dr: ordinal, class: className } = $props();
+	const { dr: ordinal, class: className }: Props = $props();
 </script>
 
-<div class={clsx("player-ordinal", className)}>
+<div class={clsx('player-ordinal', className)}>
 	<Ordinal {ordinal} />
 	<span class="suffix">DR</span>
 </div>

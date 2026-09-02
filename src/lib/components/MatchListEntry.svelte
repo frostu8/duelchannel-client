@@ -1,61 +1,44 @@
-<script>
-	import { asset } from '$app/paths';
+<script lang="ts">
+	import { asset, resolve } from '$app/paths';
 	import MarginScore from './MarginScore.svelte';
 	import MatchToolbar from './MatchToolbar.svelte';
 	import OrdinalDelta from './OrdinalDelta.svelte';
 	import RankDisplay from './RankDisplay.svelte';
+	import type { Match, Participant } from '$lib/client/matches';
 
-	import SvgIcon from '@jamescoyle/svelte-icon';
-	import { mdiDownload, mdiDownloadOffOutline } from '@mdi/js';
+	type Outcome = 'victory' | 'defeat' | 'no_contest';
 
-	/**
-	 * @typedef {Object} PlayerListEntryProps
-	 * @property {import('$lib/client/matches').Match} match
-	 * The match to render.
-	 * @property {"victory" | "defeat" | "no_contest" | null} [outcome]
-	 * How the entry should render.
-	 * @property {boolean} [showOpponentOnly=false]
-	 * Only show the opponent (the second participant).
-	 */
+	interface Props {
+		/** The match to render. */
+		match: Match;
+		/** How the entry should render. */
+		outcome?: Outcome | null;
+		/** Only show the opponent (the second participant). */
+		showOpponentOnly?: boolean;
+	}
 
-	/** @type {PlayerListEntryProps} */
-	let { match, outcome, showOpponentOnly = false } = $props();
+	let { match, outcome, showOpponentOnly = false }: Props = $props();
 
 	const TICRATE = 35;
 
-	/**
-	 * Converts tics to minutes.
-	 *
-	 * @param {number} tics
-	 * @returns {number}
-	 */
-	function ticsToMinutes(tics) {
+	/** Converts tics to minutes. */
+	function ticsToMinutes(tics: number): number {
 		return Math.floor(tics / (60 * TICRATE));
 	}
 
-	/**
-	 * Converts tics to seconds.
-	 *
-	 * @param {number} tics
-	 * @returns {number}
-	 */
-	function ticsToSeconds(tics) {
+	/** Converts tics to seconds. */
+	function ticsToSeconds(tics: number): number {
 		return Math.floor((tics / TICRATE) % 60);
 	}
 
-	/**
-	 * Converts tics to centiseconds.
-	 *
-	 * @param {number} tics
-	 * @returns {number}
-	 */
-	function ticsToCentiseconds(tics) {
+	/** Converts tics to centiseconds. */
+	function ticsToCentiseconds(tics: number): number {
 		return Math.floor((tics % TICRATE) * (100 / TICRATE));
 	}
 
 	let playerSelf = $derived.by(() => {
 		if (match.participants.length == 2) {
-			let [playerLeft, _] = match.participants;
+			let [playerLeft] = match.participants;
 			return playerLeft;
 		} else {
 			return null;
@@ -63,7 +46,7 @@
 	});
 	let playerOpponent = $derived.by(() => {
 		if (match.participants.length == 2) {
-			let [_, playerRight] = match.participants;
+			let [, playerRight] = match.participants;
 			return playerRight;
 		} else {
 			return null;
@@ -108,7 +91,7 @@
 	}}
 >
 	<th scope="col">
-		<a href="/duels/{match.id}">
+		<a href={resolve(`/duels/${match.id}`)}>
 			{#if outcome === 'victory'}
 				<span>VICTORY {score()}</span>
 			{:else if outcome === 'defeat'}
@@ -120,10 +103,7 @@
 			{/if}
 		</a>
 	</th>
-	{#snippet playerCard(
-		/** @type {import('$lib/client/matches').Participant} */ player,
-		/** @type {boolean} */ right = false
-	)}
+	{#snippet playerCard(player: Participant, right: boolean = false)}
 		<td>
 			<div
 				class={{
@@ -135,7 +115,7 @@
 					<RankDisplay rank={player.user.rank} --height="1.5em" />
 				{/if}
 				<div>
-					<a href="/player/{player.user.id}">
+					<a href={resolve(`/player/${player.user.id}`)}>
 						{player.user.displayName}
 					</a>
 				</div>
@@ -155,7 +135,7 @@
 		{@render playerCard(playerOpponent, !showOpponentOnly)}
 	{/if}
 	<td class="map-col">
-		<a href="/duels/{match.id}">
+		<a href={resolve(`/duels/${match.id}`)}>
 			<img
 				src={asset(`/thumbnails/${match.levelId}.png`)}
 				alt={`Duel on ${match.levelName}`}
@@ -187,7 +167,7 @@
 		</td>
 	{/if}
 	<td class="text">
-		<MatchToolbar {match}/>
+		<MatchToolbar {match} />
 	</td>
 </tr>
 

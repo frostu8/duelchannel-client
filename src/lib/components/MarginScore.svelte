@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+	import clsx, { type ClassValue } from 'clsx';
+
 	import mb00 from '$lib/assets/margin-boost/DUELMB00.png';
 	import mb01 from '$lib/assets/margin-boost/DUELMB01.png';
 	import mb02 from '$lib/assets/margin-boost/DUELMB02.png';
@@ -24,30 +26,24 @@
 	import mb22 from '$lib/assets/margin-boost/DUELMB22.png';
 	import mb23 from '$lib/assets/margin-boost/DUELMB23.png';
 
-	import clsx from 'clsx';
-
-	/**
-	 * @typedef {Object} MarginScoreProps
-	 * @property {number} margin - The margin score to display.
-	 * @property {import('clsx').ClassValue} [class]
-	 */
+	interface Props {
+		/** The margin score to display. */
+		margin: number;
+		class?: ClassValue;
+	}
 
 	// Hey KKD! I want to leave a note here to say that I appreciate you
 	// suffering through the margin boost HUD code so I could have a slightly
 	// less bad time -frostu8 2026-08-29
 
-	/** @type {MarginScoreProps} */
-	let { margin: rawMargin, class: className } = $props();
+	let { margin: rawMargin, class: className }: Props = $props();
 
 	/**
 	 * Mulberry32 random number generator.
 	 *
 	 * See <https://github.com/cprosche/mulberry32>.
-	 *
-	 * @param {number} a
-	 * @returns {() => number}
 	 */
-	function mulberry32(a) {
+	function mulberry32(a: number): () => number {
 		return function () {
 			var t = (a += 0x6d2b79f5);
 			t = Math.imul(t ^ (t >>> 15), t | 1);
@@ -120,8 +116,7 @@
 	let symbols = () => {
 		let { rawMargin, margin, frac, symbolHeadroomInUse, minSymbol } = marginLevel();
 
-		/** @type Array<number> */
-		const marginDigits = Array(SYMBOL_COUNT).fill(-1);
+		const marginDigits: number[] = Array(SYMBOL_COUNT).fill(-1);
 		let marginDigitsLen = 0;
 
 		if (rawMargin / BOOSTS_PER_SYMBOL > MARGIN_LEVELS) {
@@ -162,7 +157,7 @@
 	};
 </script>
 
-<div class={clsx("margin-score", className)}>
+<div class={clsx('margin-score', className)}>
 	{#each symbols() as symbol (symbol.index)}
 		<img
 			src={symbol.src}

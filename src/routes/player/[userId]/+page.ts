@@ -1,9 +1,9 @@
-import { getMatches } from '$lib/client/matches';
+import { getMatches, type Match } from '$lib/client/matches';
 import { getSinglePlayer } from '$lib/client/players';
 import { noop } from '@tanstack/svelte-query';
+import type { PageLoad } from './$types';
 
-/** @type {import('./$types').PageLoad} */
-export async function load({ fetch, params, parent }) {
+export const load: PageLoad = async ({ fetch, params, parent }) => {
 	const { queryClient } = await parent();
 	const userId = params.userId;
 
@@ -20,7 +20,7 @@ export async function load({ fetch, params, parent }) {
 			queryFn: ({ pageParam }) => getMatches(fetch, { before: pageParam, user: userId }),
 			// hopefully the remote isn't in the fucking future
 			initialPageParam: new Date().toISOString(),
-			getNextPageParam: (/** @type {import('$lib/client/matches').Match[]} */ lastPage) => {
+			getNextPageParam: (lastPage: Match[]) => {
 				if (lastPage.length >= 50) {
 					const lastMatch = lastPage[lastPage.length - 1];
 					return lastMatch.startedAt;
@@ -29,4 +29,4 @@ export async function load({ fetch, params, parent }) {
 			}
 		})
 		.catch(noop);
-}
+};

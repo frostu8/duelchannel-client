@@ -1,18 +1,12 @@
-<script>
+<script lang="ts">
 	import NavigationBar from '$lib/components/NavigationBar.svelte';
 	import favicon from '$lib/assets/favicon.png';
 	import '../app.scss';
 
 	import { QueryClientProvider } from '@tanstack/svelte-query';
+	import type { LayoutProps } from './$types';
 
-	/**
-	 * @typedef {Object} Props
-	 * @property {import('./$types').LayoutData} data
-	 * @property {import('svelte').Snippet} children
-	 */
-
-	/** @type {Props} */
-	let { children, data } = $props();
+	let { children, data }: LayoutProps = $props();
 </script>
 
 <svelte:head>

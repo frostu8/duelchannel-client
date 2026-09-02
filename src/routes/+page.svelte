@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
 	import PlayerList from '$lib/components/PlayerList.svelte';
+	import type { PageProps } from './$types';
 
-	let { data } = $props();
+	let { data }: PageProps = $props();
 </script>
 
 <article class="player-list">
