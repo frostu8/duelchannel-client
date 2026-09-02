@@ -1,15 +1,14 @@
-<script>
+<script lang="ts">
 	import PlayerListEntry from './PlayerListEntry.svelte';
+	import type { Player } from '$lib/client/players';
 
-	/**
-	 * @typedef {Object} Props
-	 * @property {import('$lib/client/players').Player[]} players
-	 * The list of players to render.
-	 * @property {string | string[]} class
-	 */
+	interface Props {
+		/** The list of players to render. */
+		players: Player[];
+		class?: string | string[];
+	}
 
-	/** @type {Props} */
-	let { players, class: className } = $props();
+	let { players, class: className }: Props = $props();
 
 	let tableClass = () => [className].flat().concat(['player-list']);
 </script>

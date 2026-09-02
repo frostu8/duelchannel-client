@@ -1,16 +1,16 @@
-<script>
+<script lang="ts">
 	import BadgeDisplay from './BadgeDisplay.svelte';
 	import RankDisplay from './RankDisplay.svelte';
 	import Ordinal from './Ordinal.svelte';
+	import type { Player } from '$lib/client/players';
+	import { resolve } from '$app/paths';
 
-	/**
-	 * @typedef {Object} Props
-	 * @property {import('$lib/client/players').Player} player
-	 * The player to render.
-	 */
+	interface Props {
+		/** The player to render. */
+		player: Player;
+	}
 
-	/** @type {Props} */
-	let { player } = $props();
+	let { player }: Props = $props();
 
 	let wins = () => Math.floor(player.matchesPlayed * player.winRatio).toLocaleString();
 	let total = () => player.matchesPlayed.toLocaleString();
@@ -24,7 +24,7 @@
 <tr class="player-card">
 	<th scope="col">
 		<div class="header">
-			<a class="user-href" href="/player/{player.id}">
+			<a class="user-href" href={resolve(`/player/${player.id}`)}>
 				{player.displayName}
 			</a>
 			<BadgeDisplay --height="1em" flags={player.flags} />

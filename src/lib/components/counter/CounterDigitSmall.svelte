@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import digitZero from '$lib/assets/numbers-small/digit_zero.png';
 	import digitOne from '$lib/assets/numbers-small/digit_one.png';
 	import digitTwo from '$lib/assets/numbers-small/digit_two.png';
@@ -10,7 +10,12 @@
 	import digitEight from '$lib/assets/numbers-small/digit_eight.png';
 	import digitNine from '$lib/assets/numbers-small/digit_nine.png';
 
-	let { number: baseNumber, digitNum = 0 } = $props();
+	interface Props {
+		number: number;
+		digitNum?: number;
+	}
+
+	let { number: baseNumber, digitNum = 0 }: Props = $props();
 
 	let digit = $derived.by(() => {
 		// Find the digit of this counter digit

@@ -1,19 +1,18 @@
-<script>
+<script lang="ts">
 	import SvgIcon from '@jamescoyle/svelte-icon';
 	import { mdiDownload, mdiDownloadOffOutline } from '@mdi/js';
+	import type { Match } from '$lib/client/matches';
 
-	/**
-	 * @typedef {Object} MatchToolbarProps
-	 * @property {import('$lib/client/matches').Match} match
-	 */
+	interface Props {
+		match: Match;
+	}
 
-	/** @type {MatchToolbarProps} */
-	const { match } = $props();
+	const { match }: Props = $props();
 </script>
 
 <div class="match-toolbar">
 	{#if match.replayUrl != null}
-		<a class="replay-btn" href={match.replayUrl} title="Download replay">
+		<a class="replay-btn" href={match.replayUrl} title="Download replay" rel="external">
 			<SvgIcon type="mdi" path={mdiDownload}></SvgIcon>
 		</a>
 	{:else}

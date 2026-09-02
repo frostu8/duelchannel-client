@@ -1,30 +1,29 @@
-<script>
+<script lang="ts">
 	import { onMount } from 'svelte';
-	import { BattleStatus, getMatches } from '$lib/client/matches';
+	import { getMatches } from '$lib/client/matches';
 	import MatchList from '$lib/components/MatchList.svelte';
-	import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query';
+	import { createInfiniteQuery } from '@tanstack/svelte-query';
 	import Autocomplete from '@smui-extra/autocomplete';
 	import { goto } from '$app/navigation';
 	import { getServers } from '$lib/client/servers';
 	import { mdiCube } from '@mdi/js';
 	import SvgIcon from '@jamescoyle/svelte-icon';
 	import Textfield from '@smui/textfield';
+	import type { PageProps } from './$types';
+	import { SvelteURLSearchParams } from 'svelte/reactivity';
+	import { resolve } from '$app/paths';
 
-	/**
-	 * @typedef {Object} Level
-	 * @property {string} id
-	 * @property {string} title
-	 */
+	interface Level {
+		id: string;
+		title: string;
+	}
 
-	/** @type {import('./$types').PageProps} */
-	let { data } = $props();
+	let { data }: PageProps = $props();
 
-	/** @type {Level[] | null} */
-	let levels = $state(null);
-	/** @type {string} */
+	let levels = $state<Level[] | null>(null);
 	let levelQuery = $state('');
 
-	async function fetchLevels() {
+	async function fetchLevels(): Promise<Level[]> {
 		const servers = await getServers(fetch);
 		return servers
 			.map((server) => Object.entries(server.maps).map(([key, value]) => ({ id: key, ...value })))
@@ -32,15 +31,12 @@
 			.sort((a, b) => a.title.localeCompare(b.title));
 	}
 
-	/**
-	 * @param {Level | null} [level]
-	 */
-	function navigateLevel(level) {
-		const newParams = new URLSearchParams();
+	function navigateLevel(level?: Level | null) {
+		const newParams = new SvelteURLSearchParams();
 
 		if (level?.id != null) newParams.append('level', level.id);
 
-		goto(`?${newParams}`, {
+		goto(resolve(`/duels?${newParams}`), {
 			keepFocus: true,
 			replaceState: true,
 			noScroll: true
@@ -52,7 +48,7 @@
 		queryFn: ({ pageParam }) => getMatches(fetch, { before: pageParam, level: data.levelId }),
 		// hopefully the remote isn't in the fucking future
 		initialPageParam: new Date().toISOString(),
-		getNextPageParam: (/** @type {import('$lib/client/matches').Match[]} */ lastPage) => {
+		getNextPageParam: (lastPage) => {
 			if (lastPage.length >= 50) {
 				const lastMatch = lastPage[lastPage.length - 1];
 				return lastMatch.startedAt;
@@ -70,8 +66,8 @@
 		levels = await fetchLevels();
 	});
 
-	let list = $state();
-	let sentinel = $state();
+	let list = $state<HTMLElement>();
+	let sentinel = $state<HTMLElement>();
 	$effect(() => {
 		if (!sentinel) return;
 		const observer = new IntersectionObserver(

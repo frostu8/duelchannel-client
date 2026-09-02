@@ -12,7 +12,7 @@
 	let searchText = $state('');
 	function navigateUser(user: Player) {
 		searchText = ''; // clear search text
-		goto(`/player/${user.id}`);
+		goto(resolve(`/player/${user.id}`));
 	}
 </script>
 

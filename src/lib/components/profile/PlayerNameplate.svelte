@@ -1,24 +1,24 @@
-<script>
-	import clsx from 'clsx';
+<script lang="ts">
+	import clsx, { type ClassValue } from 'clsx';
 	import RankDisplay from '../RankDisplay.svelte';
+	import type { Rank } from '$lib/client/players';
+	import { resolve } from '$app/paths';
 
-	/**
-	 * @typedef {object} PlayerNameplateProps
-	 * @property {string} id
-	 * @property {import('$lib/client/players').Rank | null} [rank]
-	 * @property {string} displayName
-	 * @property {import('clsx').ClassValue} [class]
-	 */
+	interface Props {
+		id: string;
+		rank?: Rank | null;
+		displayName: string;
+		class?: ClassValue;
+	}
 
-	/** @type {PlayerNameplateProps} */
-	const { id, rank, displayName, class: className } = $props();
+	const { id, rank, displayName, class: className }: Props = $props();
 </script>
 
-<div class={clsx("player-nameplate", className)}>
+<div class={clsx('player-nameplate', className)}>
 	{#if rank != null}
-		<RankDisplay rank={rank} --height="2.5em" />
+		<RankDisplay {rank} --height="2.5em" />
 	{/if}
-	<h1><a href="/player/{id}">{displayName}</a></h1>
+	<h1><a href={resolve(`/player/${id}`)}>{displayName}</a></h1>
 </div>
 
 <style>

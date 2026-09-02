@@ -1,12 +1,10 @@
-<script>
-	/**
-	 * @typedef {object} OrdinalProps
-	 * @property {number} delta
-	 * The delta to display.
-	 */
+<script lang="ts">
+	interface Props {
+		/** The delta to display. */
+		delta: number;
+	}
 
-	/** @type {OrdinalProps} */
-	let { delta } = $props();
+	let { delta }: Props = $props();
 
 	// use a large epsilon for UI rendering
 	const EPSILON = 0.01;

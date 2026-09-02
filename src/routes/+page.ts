@@ -1,7 +1,7 @@
 import { getPlayers } from '$lib/client/players';
+import type { PageLoad } from './$types';
 
-/** @type {import('./$types').PageLoad} */
-export async function load({ fetch }) {
+export const load: PageLoad = async ({ fetch }) => {
 	const players = await getPlayers(fetch);
 
 	return {
@@ -9,4 +9,4 @@ export async function load({ fetch }) {
 			return player.matchesUntilRated != null && player.matchesUntilRated < 10;
 		})
 	};
-}
+};
