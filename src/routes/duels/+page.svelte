@@ -148,7 +148,6 @@
 	}
 
 	.match-list {
-		font-size: 1.2rem;
 		overflow-y: scroll;
 		height: 100%;
 	}

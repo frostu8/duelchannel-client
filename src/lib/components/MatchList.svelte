@@ -96,7 +96,6 @@
 		color: var(--text-secondary);
 		padding: 12px;
 
-		font-size: 1rem;
 		font-weight: normal;
 
 		&:first-child {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { asset } from '$app/paths';
-	import { getSingleMatch, type ItemUsage, type Participant, type Skin } from '$lib/client/matches';
+	import { formatFinishTime, getSingleMatch, type ItemUsage, type Participant, type Skin } from '$lib/client/matches';
 	import KeyValue from '$lib/components/KeyValue.svelte';
 	import MarginScore from '$lib/components/MarginScore.svelte';
 	import MatchToolbar from '$lib/components/MatchToolbar.svelte';
@@ -96,12 +96,20 @@
 	};
 
 	const levelImgUrl = $derived(query.data ? asset(`/thumbnails/${query.data.levelId}.png`) : null);
+
+	const finishTime = () => {
+		if (query.data == null) return;
+		return formatFinishTime(query.data);
+	};
 </script>
 
 <article class="match-summary">
 	{#if query.data != null}
 		<div class="level-title" style={levelImgUrl != null ? `--title-bg: url(${levelImgUrl})` : ''}>
-			<h1>{query.data.levelName}</h1>
+			<h1 data-text={query.data.levelName}>{query.data.levelName}</h1>
+			{#if finishTime()}
+			<p data-text={finishTime()}>{finishTime()}</p>
+			{/if}
 			<MarginScore margin={query.data.marginScore} --height="4rem" class="margin-score" />
 		</div>
 		<div class="level-subtitle">
@@ -135,6 +143,7 @@
 				showHeader={false}
 				showBadges={false}
 				class={{
+					['player-stats']: true,
 					['float-left']: !right,
 					['float-right']: right
 				}}
@@ -217,6 +226,10 @@
 			font-size: 1.5em;
 			grid-row: 5;
 		}
+
+		:global(& .player-stats) {
+			grid-row: 6;
+		}
 	}
 
 	.level-title {
@@ -227,12 +240,10 @@
 		z-index: 1;
 
 		color: var(--text-primary);
-		-webkit-text-stroke: 4px var(--bg-base);
-		paint-order: stroke fill;
 
 		display: flex;
 		flex-flow: row nowrap;
-		justify-content: space-between;
+		gap: 32px;
 		align-items: center;
 
 		margin: 0.6rem 0;
@@ -251,9 +262,34 @@
 			mask-image: linear-gradient(75deg, transparent 40%, black 70%);
 		}
 
-		& h1 {
+		& h1, & p {
 			font-size: 2.5rem;
 			text-transform: uppercase;
+			z-index: 2;
+
+			position: relative;
+
+			&::before {
+				content: attr(data-text);
+				position: absolute;
+				top: 0;
+				left: 0;
+				
+				-webkit-text-stroke: 4px var(--bg-base);
+
+				filter: blur(1px);
+
+				color: transparent;
+				z-index: -1;
+			}
+		}
+
+		& h1 {
+			flex: 1 0 auto;
+		}
+
+		& p {
+			color: var(--text-secondary);
 		}
 	}
 

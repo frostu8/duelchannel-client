@@ -92,7 +92,6 @@
 	.player-match-list {
 		margin: auto;
 		width: 960px;
-		font-size: 1.2rem;
 	}
 
 	.footer {

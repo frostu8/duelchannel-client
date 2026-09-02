@@ -4,7 +4,7 @@
 	import MatchToolbar from './MatchToolbar.svelte';
 	import OrdinalDelta from './OrdinalDelta.svelte';
 	import RankDisplay from './RankDisplay.svelte';
-	import type { Match, Participant } from '$lib/client/matches';
+	import { formatFinishTime, type Match, type Participant } from '$lib/client/matches';
 
 	type Outcome = 'victory' | 'defeat' | 'no_contest';
 
@@ -18,23 +18,6 @@
 	}
 
 	let { match, outcome, showOpponentOnly = false }: Props = $props();
-
-	const TICRATE = 35;
-
-	/** Converts tics to minutes. */
-	function ticsToMinutes(tics: number): number {
-		return Math.floor(tics / (60 * TICRATE));
-	}
-
-	/** Converts tics to seconds. */
-	function ticsToSeconds(tics: number): number {
-		return Math.floor((tics / TICRATE) % 60);
-	}
-
-	/** Converts tics to centiseconds. */
-	function ticsToCentiseconds(tics: number): number {
-		return Math.floor((tics % TICRATE) * (100 / TICRATE));
-	}
 
 	let playerSelf = $derived.by(() => {
 		if (match.participants.length == 2) {
@@ -58,28 +41,8 @@
 		return `${playerSelf?.score} - ${playerOpponent?.score}`;
 	};
 
-	let finishTime = () => {
-		const participants = match.participants.map((p) => p.finishTime).filter((p) => p != null);
-
-		if (participants.length === 0) return null;
-		const timeTics = participants.reduce((acc, x) => {
-			if (acc < x) {
-				return acc;
-			} else {
-				return x;
-			}
-		});
-
-		if (timeTics != null) {
-			const minutes = ticsToMinutes(timeTics).toString().padStart(2, '0');
-			const seconds = ticsToSeconds(timeTics).toString().padStart(2, '0');
-			const centiSeconds = ticsToCentiseconds(timeTics).toString().padStart(2, '0');
-
-			return `${minutes}'${seconds}"${centiSeconds}`;
-		} else {
-			return null;
-		}
-	};
+	let finishTime = () => formatFinishTime(match);
+	let levelImg = () => asset(`/thumbnails/${match.levelId}.png`);
 </script>
 
 <tr
@@ -134,13 +97,9 @@
 		<td class="vs-text">vs</td>
 		{@render playerCard(playerOpponent, !showOpponentOnly)}
 	{/if}
-	<td class="map-col">
+	<td class="map-col" style={`--level-image: url(${levelImg()})`}>
 		<a href={resolve(`/duels/${match.id}`)}>
-			<img
-				src={asset(`/thumbnails/${match.levelId}.png`)}
-				alt={`Duel on ${match.levelName}`}
-				draggable="false"
-			/>
+			Duel on {match.levelName}
 		</a>
 	</td>
 	<td class="text finish-time">
@@ -152,7 +111,7 @@
 	</td>
 	<td class="margin-score">
 		{#if match.marginScore > 0}
-			<MarginScore margin={match.marginScore} --height="2em" />
+			<MarginScore margin={match.marginScore} --height="2.5em" />
 		{/if}
 	</td>
 	{#if showOpponentOnly}
@@ -186,7 +145,7 @@
 
 		& > div {
 			flex: 0 1 auto;
-			max-width: 10em;
+			max-width: 12em;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -268,24 +227,33 @@
 	}
 
 	.map-col {
-		width: 1%;
+		width: 8em;
 
-		& img {
+		object-fit: cover;
+		object-position: center;
+		background: var(--level-image) right / cover no-repeat;
+
+		/* Linear gradients */
+		-webkit-mask-image: linear-gradient(
+			to right,
+			transparent 0%,
+			black 25%,
+			black 75%,
+			transparent 100%
+		);
+		mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
+
+		position: relative;
+
+		& > a {
 			display: block;
-			width: 8em;
-			height: 2.8em;
-			object-fit: cover;
-			object-position: center;
+			opacity: 0;
 
-			/* Linear gradients */
-			-webkit-mask-image: linear-gradient(
-				to right,
-				transparent 0%,
-				black 25%,
-				black 75%,
-				transparent 100%
-			);
-			mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
 		}
 	}
 

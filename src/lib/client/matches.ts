@@ -130,6 +130,46 @@ export interface Match {
 	replayUrl?: string | null;
 }
 
+/** The ticrate the game runs at. */
+export const TICRATE: number = 35;
+
+/** Converts tics to minutes. */
+function ticsToMinutes(tics: number): number {
+	return Math.floor(tics / (60 * TICRATE));
+}
+
+/** Converts tics to seconds. */
+function ticsToSeconds(tics: number): number {
+	return Math.floor((tics / TICRATE) % 60);
+}
+
+/** Converts tics to centiseconds. */
+function ticsToCentiseconds(tics: number): number {
+	return Math.floor((tics % TICRATE) * (100 / TICRATE));
+}
+
+/** Displays a match's finish time as a formatted string */
+export function formatFinishTime(match: Match): string | undefined {
+	const participants = match.participants.map((p) => p.finishTime).filter((p) => p != null);
+
+	if (participants.length === 0) return;
+	const timeTics = participants.reduce((acc, x) => {
+		if (acc < x) {
+			return acc;
+		} else {
+			return x;
+		}
+	});
+
+	if (timeTics != null) {
+		const minutes = ticsToMinutes(timeTics).toString().padStart(2, '0');
+		const seconds = ticsToSeconds(timeTics).toString().padStart(2, '0');
+		const centiSeconds = ticsToCentiseconds(timeTics).toString().padStart(2, '0');
+
+		return `${minutes}'${seconds}"${centiSeconds}`;
+	}
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizeItemUsage(itemUsage: any): ItemUsage {
 	return {
