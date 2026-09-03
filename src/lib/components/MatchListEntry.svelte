@@ -228,22 +228,29 @@
 
 	.map-col {
 		width: 8em;
-
-		object-fit: cover;
-		object-position: center;
-		background: var(--level-image) right / cover no-repeat;
-
-		/* Linear gradients */
-		-webkit-mask-image: linear-gradient(
-			to right,
-			transparent 0%,
-			black 25%,
-			black 75%,
-			transparent 100%
-		);
-		mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
-
 		position: relative;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+
+			width: 100%;
+			height: 100%;
+
+			background: var(--level-image) right / cover no-repeat;
+
+			/* Linear gradients */
+			-webkit-mask-image: linear-gradient(
+				to right,
+				transparent 0%,
+				black 25%,
+				black 75%,
+				transparent 100%
+			);
+			mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
+		}
 
 		& > a {
 			display: block;
@@ -274,7 +281,6 @@
 		position: relative;
 		padding: 1rem;
 		margin-right: 0.5rem;
-		transform: translate(0, 1px);
 
 		color: var(--entry-text-color);
 		background: linear-gradient(to right, var(--entry-fade-color) 0%, var(--entry-color) 80%);

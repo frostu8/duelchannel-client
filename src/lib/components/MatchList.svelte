@@ -83,7 +83,8 @@
 
 <style>
 	.match-list {
-		border-collapse: collapse;
+		border-collapse: separate;
+		border-spacing: 0;
 	}
 
 	.match-list > thead th {
